@@ -1,0 +1,70 @@
+@charset "utf-8";
+*{
+	margin:0;
+	padding:0;
+}
+#wrap{
+	width:700px;
+	margin:0 auto;
+}
+input{
+	width:40%;
+	margin:10px;
+	height:30px;
+	font-size:1em;
+}
+#checkid{
+	width:20%;
+	height:33px;
+	padding-bottom:2px;
+}
+#birth1{
+	width:37%;
+}
+#birth2{
+	width:37%;
+}
+a{
+	text-decoration:none;
+	color:black;
+}
+#logo{
+	text-align:center;
+}
+#cancel{
+	width:30%;
+	background-color:lightgray;
+	text-align:center;
+	height:30px;
+	font-weight:bold;
+	display:inline-block;
+	border-radius:10px;
+	line-height:30px;
+}
+#info{
+	font-size:0.75em;
+}
+input[type="submit"]{
+	width:30%;
+	font-weight:bold;
+	background-color:#3BA683;
+	border:0;
+	border-radius:10px;
+	color:white;
+}
+td{
+	border-bottom:1px solid lightgray;
+	padding:10px 0px;
+}
+div:last-child{
+	width:60%;
+	margin:0 auto;
+	margin-top:20px;
+}
+#idCheck{
+	font-size:0.8em;
+	display:inline-block;
+}
+#pwdCheck{
+	font-size:0.8em;
+}

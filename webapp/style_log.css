@@ -1,0 +1,47 @@
+@charset "utf-8";
+*{
+	margin:0;
+	padding:0;
+}
+#wrap{
+	width:40%;
+	margin:0 auto;
+	border:1px solid gray;
+	margin-top:10%;
+	padding:30px;
+}
+p{
+	text-align:center;
+}
+form input{
+	width:70%;
+	height:30px;
+	margin:4px auto;
+	display:block;
+}
+#more{
+	font-size:0.8em;
+	text-align:right;
+	color:gray;
+	margin-right:15%;
+}
+#more a{
+	color:gray;
+}
+#more span{
+	margin-right:6px;
+}
+#logo{
+	text-align:center;
+	margin-bottom:20px;
+}
+#logo h1{
+	margin:0px;
+}
+#logo p{
+	margin:0px;
+}
+#logo a{
+	text-decoration:none;
+	color:black;
+}
