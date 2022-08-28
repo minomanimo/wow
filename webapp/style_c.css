@@ -14,6 +14,16 @@ a{
 	text-decoration:none;
 	color:black;
 }
+#write{
+	float:left;
+	background-color:#ababc7;
+	font-size:0.9em;
+	padding:3px;
+	border-radius:4px;
+}
+#write:hover{
+	background-color:#9a9abc;
+}
 #search{
 	float:right;
 }
@@ -61,19 +71,28 @@ li{
 	margin:0 2%;
 	font-size:0.8em;
 	display:inline-block;
-	width:10%;
+	width:14%;
 }
 #list span:nth-child(2){
 	display:inline-block;
-	width:70%;
+	width:50%;
 	margin-left:2%;
+}
+#list span:last-child{
+	margin:0 2%;
+	font-size:0.8em;
+	display:inline-block;
+}
+#list span:nth-child(2):hover{
+	text-decoration:underline ;
 }
 #page li{
 	display:inline-block;
 	margin:0 2%;
+	font-size:0.8em;
 }
 #page{
-	width:50%;
+	text-align:center;
 	margin:15px auto;
 }
 #page a{
@@ -81,4 +100,7 @@ li{
 }
 #footer{
 	border-top:1px solid black;
+}
+#page li:hover{
+	text-decoration:underline;
 }
