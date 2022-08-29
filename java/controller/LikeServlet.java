@@ -22,9 +22,10 @@ public class LikeServlet extends HttpServlet {
 		int islike=Integer.parseInt(request.getParameter("islike"));
 		String id=request.getParameter("id");
 		String time=request.getParameter("time");
+		String likedid=request.getParameter("likedid");
 		MemberDAO mDAO=MemberDAO.getInstance();
-		int success=mDAO.setGetLikes(like, islike, id, time);
-		response.getWriter().write(success);
+		int liked=mDAO.setGetLikes(like, islike, id, time,likedid);
+		response.getWriter().write(Integer.toString(liked));
 	}
 
 }

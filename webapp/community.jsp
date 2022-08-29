@@ -51,10 +51,10 @@
 			</div>
 			<div id="menu">
 				<ul>
-					<li><a href="#">인기글</a></li>
-					<li><a href="#">운동 정보글</a></li>
-					<li><a href="#">자유 게시판</a></li>
-					<li><a href="#">보충제 추천</a></li>
+					<li><a href="community.do?category=popular">인기글</a></li>
+					<li><a href="community.do?category=info">운동 정보글</a></li>
+					<li><a href="community.do?category=free">자유 게시판</a></li>
+					<li><a href="community.do?category=recom">보충제 추천</a></li>
 				</ul>
 				<div id="id">
 			<%
@@ -81,7 +81,7 @@
 				</div>
 			</div>
 			<div id="content">
-				<div id="new">최신글</div>
+				<div id="new">${page }</div>
 				<div id="list">
 					<ul>
 						<c:forEach items="${Alist }" var="Alist">
@@ -97,7 +97,7 @@
 									<li style="font-weight:bold; text-decoration:underline;">${i }</li>
 								</c:when>
 								<c:otherwise>
-									<li><a href="community.do?currentPage=${i }">${i }</a></li>
+									<li><a href="community.do?category=${category }&currentPage=${i }">${i }</a></li>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>

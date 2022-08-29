@@ -1,6 +1,7 @@
 package member;
 
 public class Community {
+	private int num;
 	private String id;
 	private String category;
 	private String title;
@@ -9,7 +10,8 @@ public class Community {
 	private String dislike;
 	private String time;
 	
-	public Community(String id, String category, String title, String content, String likes, String dislike, String time){
+	public Community(int num, String id, String category, String title, String content, String likes, String dislike, String time){
+		this.num=num;
 		this.id=id;
 		this.category=category;
 		this.title=title;
@@ -59,6 +61,12 @@ public class Community {
 	}
 	public void setTime(String time) {
 		this.time = time;
+	}
+	public int getNum() {
+		return num;
+	}
+	public void setNum(int num) {
+		this.num = num;
 	}
 	
 }

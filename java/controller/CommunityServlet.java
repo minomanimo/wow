@@ -17,10 +17,18 @@ public class CommunityServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		MemberDAO mDAO=MemberDAO.getInstance();
 		int currentPage=1;
+		String category=null;
 		if(request.getParameter("currentPage")!=null) {
 			currentPage=Integer.parseInt(request.getParameter("currentPage"));
 		}
-		ArrayList<Community> Alist=mDAO.getCommu(null, null, null, currentPage);
+		if(request.getParameter("category")!=null) {
+			if(request.getParameter("category").equals("")) {
+				category=null;
+			}else {
+				category=request.getParameter("category");
+			}
+		}
+		ArrayList<Community> Alist=mDAO.getCommu(category, null, null, currentPage);
 //		int idx=Alist.size();
 //		String[] id=new String[idx];
 //		String[] title=new String[idx];
@@ -38,15 +46,29 @@ public class CommunityServlet extends HttpServlet {
 //		request.setAttribute("title",title);
 //		request.setAttribute("time", time);
 //		request.setAttribute("like", like);
-		int row=mDAO.getNumberOfRows();
+		int row=mDAO.getNumberOfRows(category);
 		int nOfPage=row/20;
 		if(row%20!=0) {
 			nOfPage++;
 		}
+		
+		String page=null;
+		if(category==null) {
+			page="최신글";
+		}else if(category.equals("popular")) {
+			page="인기글";
+		}else if(category.equals("info")) {
+			page="운동 정보글";
+		}else if(category.equals("free")) {
+			page="자유 게시판";
+		}else if(category.equals("recom")) {
+			page="보충제 추천";
+		}
 		request.setAttribute("nOfPage", nOfPage);
 		request.setAttribute("Alist", Alist);
 		request.setAttribute("currentPage", currentPage);
-	
+		request.setAttribute("category", category);
+		request.setAttribute("page", page);
 		RequestDispatcher dis=request.getRequestDispatcher("community.jsp");
 		dis.forward(request, response);
 	}

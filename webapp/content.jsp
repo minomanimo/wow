@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -70,6 +71,11 @@
 				border-radius:5px;
 				color:white;
 				padding:2px;
+				display:inline-block;
+				text-align:center;
+			}
+			#num{
+				display:inline-block;
 			}
 			#write textarea{
 				width: 90%;
@@ -94,11 +100,81 @@
 			}
 			#write{
 				display:none;
+				padding-bottom:10px;
 			}
-			
+			#comments{
+				border-top:1px solid gray;
+			}
+			#co{
+				list-style:none;
+				border-bottom:1px solid lightgray;
+				padding:5px;
+				padding-left:60px;
+			}
+			#comments a{
+				text-decoration:none;
+				color:gray;
+				font-size:0.8em;
+				display:block;
+			}
+			.rewrite textarea{
+				width: 90%;
+				height: 40px;
+    			padding: 15px;
+    			font-size: 1.1em;
+    			resize: none;
+    			display:block;
+			}
+			.rewrite input{
+				width:60px;
+				height:30px;
+				font-weight:bold;
+				border-radius:5px;
+				border:0;
+				cursor:pointer;
+				margin-top:10px;
+			}
+			.rewrite input[type="submit"]{
+				background-color:#3BA683;
+				color:white;
+			}
+			.rewrite{
+				display:none;
+				padding:10px;
+			}
+			#re{
+				list-style:none;
+				border-bottom:1px solid lightgray;
+				padding:10px;
+			}
+			#re span{
+				width:40px;
+				display:inline-block;
+				margin-left:60px;
+				color:gray;
+			}
 		</style>
 	</head>
 	<body>
+	<%
+		if(session.getAttribute("userid")!=null){
+			String userid=(String)session.getAttribute("userid");
+	%>
+			<input type="hidden" id="userid" value="<%=userid %>">
+	<%
+		}
+		if(request.getAttribute("success")!=null){
+			if((int)request.getAttribute("success")==1){
+	%>
+				<script>alert("댓글 작성 성공");</script>
+	<%	
+			}else{
+	%>		
+				<script>alert("댓글 작성에 실패했습니다...");</script>
+	<%	
+			}
+		}
+	%>
 		<div id="wrap">
 			<div id="logo">
 				<a href="index.jsp">
@@ -130,64 +206,146 @@
 			</div>
 			<div id="comment">
 				<div id="num">
-				
+					댓글 ${Clist.size() }
 				</div>
 				<div id="writeButton">
 					댓글달기
 				</div>
 				<div id="write">
-					<form method="post" action="">
+					<form method="post" action="comment.do">
+						<input type="hidden" name="content_num" value="${num }">
+						<input type="hidden" id="writeid" name="userid" value="${userid }">
+						<input type="hidden" name="id" value="${id }">
+						<input type="hidden" name="time" value="${time }">
 						<textarea name="comment"></textarea>
 						<input type="submit" value="작성">
 						<input type="button" value="취소">
 					</form>
 				</div>
+				<div id="comments">
+					<input type="hidden" id="clist_size" value="${Clist.size() }">
+					<ul>
+						<c:forEach items="${Clist }" var="Clist">
+							<li id="co">
+								${Clist.getComment() }<a id="${Clist.getNum() }" href="#">답글달기</a>
+								<input type="hidden" class="clist_num" value="${Clist.getNum() }">
+								<div id="rewrite_${Clist.getNum() }" class="rewrite">
+									<form method="post" action="comment.do">
+										<input type="hidden" name="content_num" value="${num }">
+										<input type="hidden" id="writeid" name="userid" value="${userid }">
+										<input type="hidden" name="id" value="${id }">
+										<input type="hidden" name="time" value="${time }">
+										<input type="hidden" name="recomment" value="1">
+										<input type="hidden" name="comment_num" value="${Clist.getNum() }">
+										<textarea name="comment"></textarea>
+										<input type="submit" value="작성">
+										<input type="button" value="취소">
+									</form>
+								</div>
+							</li>
+							<c:if test="${Rlist.size() ne 0 }">
+								<c:forEach items="${Rlist }" var="Rlist">
+									<c:if test="${Rlist.getComment_num() eq Clist.getNum()}">
+										<li id="re"><span>┗</span>${Rlist.getComment() }</li>
+									</c:if>
+								</c:forEach>
+							</c:if>
+						</c:forEach>
+					</ul>
+				</div>
 			</div>
 		</div>
 		<script>
+		//댓글
 			$("#writeButton").click(function(){
-				$("#write").attr("style","display:block;");
+				if($("#writeid").val()==""){
+					alert("로그인이 필요합니다.");
+				}else{
+					$("#write").attr("style","display:block;");	
+				}
 			});
 			$("#write input[type='button']").click(function(){
 				$("#write").attr("style","");
 			});
-			
+		//대댓글	
+			var listsize=Number($("#clist_size").val());
+			for(var i=0; i<listsize; i++){
+				var num=document.getElementsByClassName("clist_num")[i].value;
+				var rewrite="#rewrite_"+num;
+				writeRe(num, rewrite);
+			}
+			function writeRe(num, rewrite){
+				$("#"+num).click(function(){
+					if($("#writeid").val()==""){
+						alert("로그인이 필요합니다.");
+					}else{
+						$(rewrite).attr("style", "display:block;");
+						console.log(num);
+					}
+				});
+				$(rewrite+" input[type='button']").click(function(){
+					$(rewrite).attr("style","");
+				});
+			}
+		//좋아요	
 			$("#like").click(function(){
-				var like=Number($("#like span").text())+1;
-				$.ajax("like.do",{
-					type : "POST",
-					data : {
-						like:like,
-						islike:1,
-						id:$("#id").text(),
-						time:$("#time").text()
-					},
-					success : function(response,status,xhr){
-						$("#like span").text(like);
-						
-					},
-					error : function(xhr, status, errorMessage){
-						alert("좋아요 실패...");
-					}
-				});
+				if($("#userid").val()==null){
+					alert("로그인이 필요합니다");
+				}else{
+					var like=Number($("#like span").text())+1;
+					$.ajax("like.do",{
+						type : "POST",
+						data : {
+							like:like,
+							islike:1,
+							id:$("#id").text(),
+							time:$("#time").text(),
+							likedid:$("#userid").val()
+						},
+						success : function(response,status,xhr){
+							if(response==1){
+								alert("이미 좋아요 하셨습니다.");
+							}else if(response==0){
+								alert("이미 싫어요 하셨습니다.");
+							}else if(response==-1){
+								$("#like span").text(like);
+							}
+						},
+						error : function(xhr, status, errorMessage){
+							alert("좋아요 실패...");
+						}
+					});
+				}
 			});
+		//싫어요
 			$("#dislike").click(function(){
-				var dislike=Number($("#dislike span").text())+1;
-				$.ajax("like.do",{
-					type : "POST",
-					data : {
-						like:dislike,
-						islike:0,
-						id:$("#id").text(),
-						time:$("#time").text()
-					},
-					success : function(response, status, xhr){
-						$("#dislike span").text(dislike);
-					},
-					error : function(xhr, status, errorMessage){
-						alert("싫어요 실패...");
-					}
-				});
+				if($("#userid").val()==null){
+					alert("로그인이 필요합니다");
+				}else{
+					var dislike=Number($("#dislike span").text())+1;
+					$.ajax("like.do",{
+						type : "POST",
+						data : {
+							like:dislike,
+							islike:0,
+							id:$("#id").text(),
+							time:$("#time").text(),
+							likedid:$("#userid").val()
+						},
+						success : function(response, status, xhr){
+							if(response==1){
+								alert("이미 좋아요 하셨습니다.");
+							}else if(response==0){
+								alert("이미 싫어요 하셨습니다.");
+							}else if(response==-1){
+								$("#dislike span").text(dislike);
+							}
+						},
+						error : function(xhr, status, errorMessage){
+							alert("싫어요 실패...");
+						}
+					});
+				}
 			});
 		</script>
 	</body>

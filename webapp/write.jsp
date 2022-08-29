@@ -106,6 +106,18 @@
 			$("input[type='button']").click(function(){
 				location.href="community.do";
 			});
+			$("input[type='submit']").click(function(){
+				if($("select").val()==""){
+					alert("게시판을 선택해주세요.");
+					return false;
+				}if($("input[type='text']").val()==""){
+					alert("제목을 입력해주세요.");
+					return false;
+				}if($("textarea").val()==""){
+					alert("내용을 입력해주세요.");
+					return false;
+				}
+			});
 		</script>
 	</body>
 </html>
