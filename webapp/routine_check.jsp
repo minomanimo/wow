@@ -34,6 +34,16 @@
 		</style>
 	</head>
 	<body>
+		<%
+			if(session.getAttribute("userid")==null){
+		%>
+				<script>
+					alert("이 페이지는 로그인이 필요합니다.");
+					location.href="index.jsp";
+				</script>
+		<%		
+			}
+		%>
 		<div id="wrap">
 			<div id="logo">
 				<a href="index.jsp">

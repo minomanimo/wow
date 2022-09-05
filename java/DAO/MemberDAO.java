@@ -1,5 +1,6 @@
 package DAO;
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -26,6 +27,24 @@ public class MemberDAO {
 		return conn;
 	}
 	//회원추가
+	public static void close(Connection conn, PreparedStatement pstmt) {
+		try {
+			if(pstmt!=null)pstmt.close();
+			if(conn!=null)conn.close();
+		}catch(Exception e) {
+			System.out.println("MemberDAO.close() 실행중 오류발생"+e);
+		}
+	}
+	
+	public static void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {
+		try {
+			if(rs!=null)rs.close();
+			if(pstmt!=null)pstmt.close();
+			if(conn!=null)conn.close();
+		}catch(Exception e) {
+			System.out.println("MemberDAO.close() 실행중 오류발생"+e);
+		}
+	}
 	public int insertMember(Member m) {
 		int result=-1;
 		Connection conn=null;
@@ -46,8 +65,7 @@ public class MemberDAO {
 			System.out.println("insertMember 실행중 오류발생 : "+e);
 		}finally {
 			try {
-				if(pstmt!=null)pstmt.close();
-				if(conn!=null)conn.close();
+				MemberDAO.close(conn, pstmt);
 			}catch(Exception ex) {
 				System.out.println("insertMember 종료중 오류발생 : "+ex);
 			}
@@ -79,9 +97,7 @@ public class MemberDAO {
 			System.out.println("memberCheck 실행중 오류발생 : "+e);
 		}finally {
 			try {
-				if(rs!=null)rs.close();
-				if(pstmt!=null)pstmt.close();
-				if(conn!=null)conn.close();
+				MemberDAO.close(conn, pstmt, rs);
 			}catch(Exception ex) {
 				System.out.println("memberChec 종료중 오류발생 : "+ex);
 			}
@@ -121,9 +137,7 @@ public class MemberDAO {
 			System.out.println("getMember 실행중 오류발생 : "+e);
 		}finally {
 			try {
-				if(rs!=null)rs.close();
-				if(pstmt!=null)pstmt.close();
-				if(conn!=null)conn.close();
+				MemberDAO.close(conn, pstmt, rs);
 			}catch(Exception ex) {
 				System.out.println("getMember 종료중 오류발생 : "+ex);
 			}
@@ -149,9 +163,7 @@ public class MemberDAO {
 			System.out.println("idCheck 실행중 오류발생 : "+e);
 		}finally {
 			try {
-				if(rs!=null)rs.close();
-				if(pstmt!=null)pstmt.close();
-				if(conn!=null)conn.close();
+				MemberDAO.close(conn, pstmt, rs);
 			}catch(Exception ex){
 				System.out.println("idCheck 종료중 오류발생 : "+ex);
 			}
@@ -192,9 +204,7 @@ public class MemberDAO {
 			System.out.println("getWorkList() 실행중 오류발생 : "+e);
 		}finally{
 			try {
-				if(rs!=null)rs.close();
-				if(pstmt!=null)pstmt.close();
-				if(conn!=null)conn.close();
+				MemberDAO.close(conn, pstmt, rs);
 			}catch(Exception ex) {
 				System.out.println("getWorkList() 종료중 오류발생 : "+ex);
 			}
@@ -224,9 +234,7 @@ public class MemberDAO {
 			System.out.println("searchWork() 실행중 오류발생"+e);
 		}finally {
 			try {
-				if(rs!=null)rs.close();
-				if(pstmt!=null)pstmt.close();
-				if(conn!=null)conn.close();
+				MemberDAO.close(conn, pstmt, rs);
 			}catch(Exception ex) {
 				System.out.println("searchWork() 종료중 오류발생"+ex);
 			}
@@ -248,8 +256,7 @@ public class MemberDAO {
 			System.out.println("deleteList() 실행중 오류발생 : "+e);
 		}finally {
 			try {
-				if(pstmt!=null)pstmt.close();
-				if(conn!=null)conn.close();
+				MemberDAO.close(conn, pstmt);
 			}catch(Exception ex) {
 				System.out.println("deleteList() 종료중 오류발생 : "+ex);
 			}
@@ -278,9 +285,7 @@ public class MemberDAO {
 			System.out.println("getLink() 실행중 오류발생 : "+e);
 		}finally {
 			try {
-				if(rs!=null)rs.close();
-				if(pstmt!=null)pstmt.close();
-				if(conn!=null)conn.close();
+				MemberDAO.close(conn, pstmt, rs);
 			}catch(Exception ex) {
 				System.out.println("getLink() 종료중 오류발생 : "+ex);
 			}
@@ -310,8 +315,7 @@ public class MemberDAO {
 			System.out.println("writeCommu() 실행중 오류발생"+e);
 		}finally {
 			try {
-				if(pstmt!=null)pstmt.close();
-				if(conn!=null)conn.close();
+				MemberDAO.close(conn, pstmt);
 			}catch(Exception ex){
 				System.out.println("writeCommu() 종료중 오류발생"+ex);
 			}
@@ -352,7 +356,7 @@ public class MemberDAO {
 				//System.out.println(sql);
 			}
 			if(userid!=null && time1==null) {
-				sql+=" and userid='"+userid+"' order by num desc limit ?, ?;";
+				sql+=" and id='"+userid+"' order by num desc limit ?, ?;";
 				pstmt=conn.prepareStatement(sql);
 				pstmt.setInt(1, start);
 				pstmt.setInt(2, 20);
@@ -383,16 +387,14 @@ public class MemberDAO {
 			System.out.println("getCommu() 실행중 오류발생"+e);
 		}finally {
 			try {
-				if(rs!=null)rs.close();
-				if(pstmt!=null)pstmt.close();
-				if(conn!=null)conn.close();
+				MemberDAO.close(conn, pstmt, rs);
 			}catch(Exception ex) {
 				System.out.println("getCommu() 종료중 오류발생"+ex);
 			}
 		}
 		return list;
 	}
-	public int getNumberOfRows(String category) {
+	public int getNumberOfRows(String category, String id) {
 		int row=0;
 		String sql="select count(num) from community where visible=1 ";
 		
@@ -409,6 +411,10 @@ public class MemberDAO {
 					pstmt=conn.prepareStatement(sql);
 					pstmt.setString(1, category);
 				}
+			}else if(id!=null) {
+				sql+=" and id=?";
+				pstmt=conn.prepareStatement(sql);
+				pstmt.setString(1, id);
 			}else {
 				pstmt=conn.prepareStatement(sql);
 			}
@@ -421,9 +427,7 @@ public class MemberDAO {
 			System.out.println("getNumberOfRows() 실행중 오류발생"+e);
 		}finally {
 			try {
-				if(rs!=null)rs.close();
-				if(pstmt!=null)pstmt.close();
-				if(conn!=null)conn.close();
+				MemberDAO.close(conn, pstmt, rs);
 			}catch(Exception ex){
 				System.out.println("getNumberOfRows() 종료중 오류발생"+ex);
 			}
@@ -460,11 +464,15 @@ public class MemberDAO {
 				liked=rs.getInt("islike");
 				
 			}else {
-				sql="insert into likes (id, main_num, islike) values (?, ?, ?);";
+				sql="insert into likes (id, main_num, islike, date) values (?, ?, ?, ?);";
 				pstmt=conn.prepareStatement(sql);
 				pstmt.setString(1, likedid);
 				pstmt.setInt(2, num);
 				pstmt.setInt(3, islike);
+				LocalDate now=LocalDate.now();
+				DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy/MM/dd");
+				String formatNow=now.format(formatter);
+				pstmt.setString(4, formatNow);
 				pstmt.executeUpdate();
 				liked=-1;
 				
@@ -486,9 +494,7 @@ public class MemberDAO {
 			System.out.println("setGetLikes() 실행중 오류발생"+e);
 		}finally {
 			try {
-				if(rs!=null)rs.close();
-				if(pstmt!=null)pstmt.close();
-				if(conn!=null)conn.close();
+				MemberDAO.close(conn, pstmt,rs);
 			}catch(Exception ex) {
 				System.out.println("setGetLikes() 종료중 오류발생"+ex);
 			}
@@ -525,8 +531,7 @@ public class MemberDAO {
 			System.out.println("writeCommu() 실행중 오류발생");
 		}finally {
 			try {
-				if(pstmt!=null)pstmt.close();
-				if(conn!=null)pstmt.close();
+				MemberDAO.close(conn, pstmt);
 			}catch(Exception ex){
 				System.out.println("writeCommu() 종료중 오류발생");
 			}
@@ -547,22 +552,78 @@ public class MemberDAO {
 			rs=pstmt.executeQuery();
 			while(rs.next()) {
 				int num=rs.getInt("num");
+				String comment_id=rs.getString("comment_id");
 				String comment=rs.getString("comment");
 				int main_num1=rs.getInt("main_num");
 				int recomment1=rs.getInt("recomment");
 				int comment_num1=rs.getInt("comment_num");
-				com=new Comment(num, comment, main_num1, recomment1, comment_num1);
+				com=new Comment(num,comment_id, comment, main_num1, recomment1, comment_num1);
 				list.add(com);
 			}
 		}catch(Exception e) {
 			System.out.println("getComment() 실행중 오류발생"+e);
 		}finally {
 			try {
-				if(rs!=null)rs.close();
-				if(pstmt!=null)pstmt.close();
-				if(conn!=null)conn.close();
+				MemberDAO.close(conn, pstmt, rs);
 			}catch(Exception ex) {
 				System.out.println("getComment() 종료중 오류발생"+ex);
+			}
+		}
+		return list;
+	}
+	public void deleteContent(int num) {
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		String sql="update community set visible=0 where num='"+num+"';";
+		try {
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			pstmt.executeUpdate();
+		}catch(Exception e) {
+			System.out.println("deleteContent() 실행중 오류발생"+e);
+		}finally {
+			try {
+				MemberDAO.close(conn, pstmt);
+			}catch(Exception ex) {
+				System.out.println("deleteContent() 종료중 오류발생"+ex);
+			}
+		}
+	}
+	public ArrayList<String> updateContent(int num, String title, String content){
+		ArrayList<String> list=new ArrayList<String>();
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		String sql=null;
+		
+		try {
+			conn=getConnection();
+			if(title==null && content==null) {
+				sql="select * from community where num='"+num+"';";
+				pstmt=conn.prepareStatement(sql);
+				rs=pstmt.executeQuery();
+				if(rs.next()) {
+					String title1=rs.getString("title");
+					String content1=rs.getString("content");
+					list.add(title1);
+					list.add(content1);
+				}
+			}else {
+				sql="update community set title=?, content=? where num=?";
+				pstmt=conn.prepareStatement(sql);
+				pstmt.setString(1, title);
+				pstmt.setString(2, content);
+				pstmt.setInt(3, num);
+				int work=pstmt.executeUpdate();
+				list.add(Integer.toString(work));
+			}
+		}catch(Exception e) {
+			System.out.println("updateContent() 실행중 오류발생 "+e);
+		}finally {
+			try {
+				MemberDAO.close(conn, pstmt, rs);
+			}catch(Exception ex) {
+				System.out.println("updateContent() 종료중 오류발생 "+ex);
 			}
 		}
 		return list;

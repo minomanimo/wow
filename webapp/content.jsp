@@ -153,12 +153,31 @@
 				margin-left:60px;
 				color:gray;
 			}
+			#ud{
+				float: right;
+   				cursor: pointer;
+   				text-align:right;
+			}
+			#ud ul{
+				font-weight:normal;
+				list-style:none;
+				font-size:0.9em;
+				float:right;
+				display:none;
+				
+			}
+			#ud li{
+				border-bottom:1px solid gray;
+				background-color:white;
+				padding:3px;
+			}
 		</style>
 	</head>
 	<body>
 	<%
+		String userid;
 		if(session.getAttribute("userid")!=null){
-			String userid=(String)session.getAttribute("userid");
+			userid=(String)session.getAttribute("userid");
 	%>
 			<input type="hidden" id="userid" value="<%=userid %>">
 	<%
@@ -183,7 +202,18 @@
 				</a>
 			</div>
 			<div id="main">
-				<div id="title">${title }</div>
+				<div id="title">
+					${title }
+					<c:if test="${userid eq id }">
+					<div id="ud">
+						...<br>
+						<ul>
+							<li>게시글 수정</li>
+							<li>게시글 삭제</li>
+						</ul>
+					</div>
+				</c:if>
+				</div>
 				<div id="id">${id }</div>
 				<div id="time">${time }</div>
 				
@@ -227,6 +257,7 @@
 					<ul>
 						<c:forEach items="${Clist }" var="Clist">
 							<li id="co">
+								<div style="font-size:0.8em;">${Clist.getComment_id() }</div>
 								${Clist.getComment() }<a id="${Clist.getNum() }" href="#">답글달기</a>
 								<input type="hidden" class="clist_num" value="${Clist.getNum() }">
 								<div id="rewrite_${Clist.getNum() }" class="rewrite">
@@ -246,7 +277,10 @@
 							<c:if test="${Rlist.size() ne 0 }">
 								<c:forEach items="${Rlist }" var="Rlist">
 									<c:if test="${Rlist.getComment_num() eq Clist.getNum()}">
-										<li id="re"><span>┗</span>${Rlist.getComment() }</li>
+										<li id="re">
+											<div style="font-size:0.8em; margin-left:100px;">${Clist.getComment_id() }</div>
+											<span>┗</span>${Rlist.getComment() }
+										</li>
 									</c:if>
 								</c:forEach>
 							</c:if>
@@ -343,6 +377,44 @@
 						},
 						error : function(xhr, status, errorMessage){
 							alert("싫어요 실패...");
+						}
+					});
+				}
+			});
+		//게시글수정
+			$("#ud").click(function(){
+				$("#ud ul").attr("style","display:block");
+			});
+			$("#content").click(function(){
+				$("#ud ul").attr("style","");
+			});
+			$("#id").click(function(){
+				$("#ud ul").attr("style","");
+			});
+			$("#time").click(function(){
+				$("#ud ul").attr("style","");
+			});
+			$("#ud li:first-child").click(function(){
+				var num=$("#write input:first-child").val();
+				location.href="update.do?num="+num
+			});
+			$("#ud li:last-child").click(function(){
+				var num=$("#write input:first-child").val();
+				var bool=confirm("정말 삭제하시겠습니까?");
+				if(bool){
+					$.ajax("ud.do",{
+						type:"POST",
+						data:{
+							num:num,
+							update:0
+						},
+						async:true,
+						success:function(resoponse, status, xhr){
+							alert("삭제 완료");
+							location.href="community.do";
+						},
+						error:function(xhr, status, errorMessage){
+							alert("삭제 실패..");
 						}
 					});
 				}

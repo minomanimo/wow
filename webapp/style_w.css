@@ -44,6 +44,12 @@ ul{
 #search form{
 	margin-left:76%;
 }
+#list{
+	overflow:auto;
+	height: 600px;
+    width: 35%;
+    display: inline-block;
+}
 #list li{
 	border-bottom:1px solid gray;
 	list-style:none;
@@ -67,7 +73,6 @@ ul{
 }
 #list ul{
 	float:left;
-	width:35%;
 }
 #list a{
 	display:inline-block;

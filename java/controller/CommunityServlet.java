@@ -46,7 +46,7 @@ public class CommunityServlet extends HttpServlet {
 //		request.setAttribute("title",title);
 //		request.setAttribute("time", time);
 //		request.setAttribute("like", like);
-		int row=mDAO.getNumberOfRows(category);
+		int row=mDAO.getNumberOfRows(category, null);
 		int nOfPage=row/20;
 		if(row%20!=0) {
 			nOfPage++;

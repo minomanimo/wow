@@ -32,6 +32,7 @@
 #header ul{
 	width:90%;
 	margin:10px auto;
+	text-align:center;
 }
 #choose{
 	width:44%;
@@ -80,7 +81,9 @@
 	width:100%;
 }
 #list{
+	overflow:auto;
 	margin-top:10px;
+	height:600px;
 }
 #list:after{
 	content:"";
@@ -93,9 +96,12 @@
 	clear:both;
 }
 #put{
-	width:55%;
+	width:100%;
 	border:2px solid lightgray;
 	float:right;
+	height:600px;
+	overflow:auto;
+	list-style:none;
 }
 #put:after{
 	content:"";
@@ -114,17 +120,44 @@
 	border-radius:7px;
 }
 #input input{
-	width:35%;
+	width:26px;
 }
 #input{
 	float:right;
-	width:70px;
-	margin:5px 10px;
-	line-height:0;
+	width:220px;
+	line-height:50px;
 	font-weight:normal;
 }
 #input:after{
 	content:"";
 	display:block;
 	clear:both;
+}
+#plus{
+	color:gray;
+	font-size:3em;
+	text-align:center;
+	line-height:600px;
+}
+input[type='submit']{
+	background-color:#3BA683;
+	font-weight:bold;
+	color:white;
+	border:0;
+	width:100px;
+	border-radius:5px;
+	cursor:pointer;
+}
+input[type='button']{
+	font-weight:bold;
+	border:0;
+	width:100px;
+	border-radius:5px;
+	cursor:pointer;
+	
+}
+form{
+	float:right;
+	width:55%;
+	
 }

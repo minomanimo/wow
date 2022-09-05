@@ -34,7 +34,7 @@ public class CommentServlet extends HttpServlet {
 		MemberDAO mDAO=MemberDAO.getInstance();
 		int success=mDAO.writeComment(userid, comment, main_num, recomment, comment_num);
 		request.setAttribute("success", success);
-		request.getRequestDispatcher("/content.do").forward(request, response);
+		response.sendRedirect("content.do");
 	}
 
 }

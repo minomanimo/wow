@@ -11,8 +11,8 @@
 	</head>
 	<body>
 		<%
-			if(request.getAttribute("success")!=null){
-				int success=(int)request.getAttribute("success");
+			if(session.getAttribute("success")!=null){
+				int success=(int)session.getAttribute("success");
 				if(success==1){
 		%>
 					<script>
@@ -20,7 +20,7 @@
 					</script>
 					
 		<%
-					request.removeAttribute("success");
+					session.removeAttribute("success");
 				}else if(success==0){
 		%>
 					<script>
@@ -28,13 +28,11 @@
 					</script>
 					
 		<%
-					request.removeAttribute("success");
+					session.removeAttribute("success");
 				}
 			}
-		
-			
-			 
 		%>
+
 		<div id="wrap">
 			<div id="logo">
 				<a href="index.jsp">
@@ -67,7 +65,7 @@
 			<%				
 						}else{
 			%>
-							<a href="myPage.jsp">마이 페이지</a>
+							<a href="myPage.do?userid=${userid }">마이 페이지</a>
 			<%				
 						}
 					}else{

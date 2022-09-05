@@ -14,6 +14,7 @@ public class WriteServlet extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -25,10 +26,9 @@ public class WriteServlet extends HttpServlet {
 		
 		MemberDAO mDAO=MemberDAO.getInstance();
 		int success=mDAO.writeCommu(userid, category, title, content);
-		
-		request.setAttribute("success", success);
-		RequestDispatcher dis=request.getRequestDispatcher("/community.do");
-		dis.forward(request, response);
+		HttpSession session=request.getSession();
+		session.setAttribute("success", success);
+		response.sendRedirect("community.do");
 		
 	}
 
