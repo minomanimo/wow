@@ -106,25 +106,27 @@
 			}
 			var drag;
 			function showPart(part){
-				$.ajax({
-					url:"ShowPart",
-					method:"POST",
-					data:{"part":part},
-					async:true,
-					success:function(response, status, xhr){
-						var name=response.getElementsByTagName("name");
-						var ul=document.getElementById("list").getElementsByTagName("ul")[0];
-						ul.innerHTML="";
-						for(var i=0; i<name.length; i++){
-							ul.innerHTML+="<li draggable='true' class='drag'>"+name[i].firstChild.data+"</li>";
+				if($("#day").val()!=""){
+					$.ajax({
+						url:"ShowPart",
+						method:"POST",
+						data:{"part":part},
+						async:true,
+						success:function(response, status, xhr){
+							var name=response.getElementsByTagName("name");
+							var ul=document.getElementById("list").getElementsByTagName("ul")[0];
+							ul.innerHTML="";
+							for(var i=0; i<name.length; i++){
+								ul.innerHTML+="<li draggable='true' class='drag'>"+name[i].firstChild.data+"</li>";
+							}
+							drag=document.getElementsByClassName("drag");
+							dragEvent(drag);
+						},
+						error:function(xhr, status, errorMessage){
+							alert("운동 불러오기 실패..");
 						}
-						drag=document.getElementsByClassName("drag");
-						dragEvent(drag);
-					},
-					error:function(xhr, status, errorMessage){
-						alert("운동 불러오기 실패..");
-					}
-				});
+					});
+				}
 			}
 			//드래그 앤 드롭 처리 
 			
@@ -132,13 +134,7 @@
 				for(var i=0; i<drag.length; i++){
 					drag[i].addEventListener("dragstart",function(e){
 						e.dataTransfer.setData("data",this.innerHTML)
-						this.style.opacity='0.9';
-					});
-					drag[i].addEventListener("dragenter",function(e){
-						e.dataTransfer.setData("data",this.innerHTML)
-						console.log("=============확인해보자!!!");
-						console.log(e.target);
-						this.style.opacity='0.9';
+						
 					});
 					
 				}
@@ -149,7 +145,7 @@
 			var arr=new Array();
 			
 			put.addEventListener("dragover",function(e){
-				console.log(e);
+				
 				e.preventDefault();
 				//e.setAttribute("style","opacity:0.5");
 				
@@ -163,7 +159,7 @@
 				}
 				var data=e.dataTransfer.getData("data")
 				put.innerHTML+="<li id='drop' value='"+data+"'>"+data+
-				"<div id='input'>세트<input type='text' name='sets"+num+"'>중량<input type='text' name='kg"+num+"'>횟수<input type='text' name='reps"+num+"'></div>"+"</li>";
+				"<div id='input'>세트<input type='text' name='sets"+num+"'>중량<input type='text' name='kg"+num+"'>횟수<input type='text' name='reps"+num+"'><div class='x'>X</div></div>"+"</li>";
 				$("#len").val(num);
 				arr.push(data);
 				var str_arr=JSON.stringify(arr);
@@ -214,22 +210,22 @@
 			});
 			//리스트 삭제
 			function deleteLi(){
-				$("#put li").each(function(){
+				$(".x").each(function(index){
 					$(this).click(function(){
-						var data=$(this).text().split("세트")[0];
-						for(var i=0; i<arr.length; i++){
-							if(arr[i]==data){
-								console.log(arr);
-								arr.splice(i,1);
-								var str_arr=JSON.stringify(arr);
-								$("#arr").val(str_arr);
-								break;
-							}
-						}
-						$(this).remove();
+						var lis=document.getElementById("put").getElementsByTagName("li");
+						var data=lis[index].value;
+						lis[index].remove();
+						arr=new Array();
+						$("#put li").each(function(){
+							arr.push($(this).attr("value"));
+						});
+						var str_arr=JSON.stringify(arr);
+						$("#arr").val(str_arr);
 					});
 				});
 			}
+			//이슈 1:리스트 삭제처리
+			//이슈 2:sets kg reps input들 id 수정필요
 		</script>
 	</body>
 </html>

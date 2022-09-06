@@ -1,26 +1,26 @@
 package member;
 
 public class Routine {
-	private String userid;
+	private String id;
 	private String day;
 	
-	private String[] name;
-	private int[] sets;
-	private int[] kg;
-	private int[] reps;
-	public Routine(String userid, String day, String[] name, int[] sets, int[] kg, int[] reps) {
-		this.userid=userid;
+	private String name;
+	private int sets;
+	private int kg;
+	private int reps;
+	public Routine(String id, String day, String name, int sets, int kg, int reps) {
+		this.id=id;
 		this.day=day;
 		this.name=name;
 		this.sets=sets;
 		this.kg=kg;
 		this.reps=reps;
 	}
-	public String getUserid() {
-		return userid;
+	public String getId() {
+		return id;
 	}
-	public void setUserid(String userid) {
-		this.userid = userid;
+	public void setId(String userid) {
+		this.id = userid;
 	}
 	public String getDay() {
 		return day;
@@ -29,28 +29,28 @@ public class Routine {
 		this.day = day;
 	}
 	
-	public String[] getName() {
+	public String getName() {
 		return name;
 	}
-	public void setName(String[] name) {
+	public void setName(String name) {
 		this.name = name;
 	}
-	public int[] getSets() {
+	public int getSets() {
 		return sets;
 	}
-	public void setSets(int[] sets) {
+	public void setSets(int sets) {
 		this.sets = sets;
 	}
-	public int[] getKg() {
+	public int getKg() {
 		return kg;
 	}
-	public void setKg(int[] kg) {
+	public void setKg(int kg) {
 		this.kg = kg;
 	}
-	public int[] getReps() {
+	public int getReps() {
 		return reps;
 	}
-	public void setReps(int[] reps) {
+	public void setReps(int reps) {
 		this.reps = reps;
 	}
 	

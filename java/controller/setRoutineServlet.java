@@ -48,8 +48,12 @@ public class setRoutineServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(Arrays.toString(arr));
-		//Routine routine=new Routine(id, day, arr, sets, kg, reps);
+		
+		ArrayList<Routine> routineList=new ArrayList<Routine>();
+		for(int i=0; i<len; i++) {
+			Routine routine=new Routine(id, day, arr[i], sets[i], kg[i], reps[i]);
+			routineList.add(routine);
+		}
 	}
 
 }

@@ -628,4 +628,51 @@ public class MemberDAO {
 		}
 		return list;
 	}
+	public void setRoutine(ArrayList<Routine> Rlist) {
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		String sql="select * from routine where userid=? and day=? and name=?";
+		try {
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			for(int i=0; i<Rlist.size(); i++) {
+				pstmt.setString(1, Rlist.get(i).getId());
+				pstmt.setString(2, Rlist.get(i).getDay());
+				pstmt.setString(3, Rlist.get(i).getName());
+				rs=pstmt.executeQuery();
+				pstmt.close();
+				if(rs.next()) {
+					sql="update routine set sets=?, kg=?, reps=?, idx=? where userid=? and day=? and name=?";
+					pstmt=conn.prepareStatement(sql);
+					pstmt.setInt(1, Rlist.get(i).getSets());
+					pstmt.setInt(2, Rlist.get(i).getKg());
+					pstmt.setInt(3, Rlist.get(i).getReps());
+					pstmt.setInt(4, i);
+					pstmt.setString(5, Rlist.get(i).getId());
+					pstmt.setString(6, Rlist.get(i).getDay());
+					pstmt.setString(7, Rlist.get(i).getName());
+					pstmt.executeUpdate();
+					pstmt.close();
+				}else {
+					sql="insert into routine (userid, day, idx, name, sets, kg, reps) values (?,?,?,?,?,?,?)";
+					pstmt=conn.prepareStatement(sql);
+					
+					pstmt.setString(1, Rlist.get(i).getId());
+					pstmt.setString(2, Rlist.get(i).getDay());
+					pstmt.setInt(3, i);
+					pstmt.setString(4, Rlist.get(i).getName());
+					pstmt.setInt(5, Rlist.get(i).getSets());
+					pstmt.setInt(6, Rlist.get(i).getKg());
+					pstmt.setInt(7, Rlist.get(i).getReps());
+					
+					pstmt.executeUpdate();
+				}
+			}
+		}catch(Exception e) {
+			System.out.println("setRoutine() 실행중 오류발생 : "+e);
+		}finally {
+			MemberDAO.close(conn, pstmt, rs);
+		}
+	}
 }

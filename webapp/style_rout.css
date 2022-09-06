@@ -164,3 +164,14 @@ form{
 li{
 	cursor:pointer;
 }
+.x{
+	width: 10px;
+    display: inline-block;
+    border: 1px solid gray;
+    line-height: 10px;
+    font-size: 0.8em;
+    background-color: gray;
+    text-align: center;
+    cursor: pointer;
+    margin-left:13px;
+}
