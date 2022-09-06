@@ -257,7 +257,7 @@
 					<ul>
 						<c:forEach items="${Clist }" var="Clist">
 							<li id="co">
-								<div style="font-size:0.8em;">${Clist.getComment_id() }</div>
+								<div style="font-size:0.8em;">${Clist.getCommentId() }</div>
 								${Clist.getComment() }<a id="${Clist.getNum() }" href="#">답글달기</a>
 								<input type="hidden" class="clist_num" value="${Clist.getNum() }">
 								<div id="rewrite_${Clist.getNum() }" class="rewrite">
@@ -276,9 +276,9 @@
 							</li>
 							<c:if test="${Rlist.size() ne 0 }">
 								<c:forEach items="${Rlist }" var="Rlist">
-									<c:if test="${Rlist.getComment_num() eq Clist.getNum()}">
+									<c:if test="${Rlist.getCommentNum() eq Clist.getNum()}">
 										<li id="re">
-											<div style="font-size:0.8em; margin-left:100px;">${Clist.getComment_id() }</div>
+											<div style="font-size:0.8em; margin-left:100px;">${Rlist.getCommentId() }</div>
 											<span>┗</span>${Rlist.getComment() }
 										</li>
 									</c:if>

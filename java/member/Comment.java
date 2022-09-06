@@ -2,18 +2,18 @@ package member;
 
 public class Comment {
 	private int num;
-	private String comment_id;
+	private String commentId;
 	private String comment;
-	private int main_num;
+	private int mainNum;
 	private int recomment;
-	private int comment_num;
+	private int commentNum;
 	public Comment(int num,String comment_id, String comment, int main_num, int recomment, int comment_num) {
 		this.num=num;
-		this.comment_id=comment_id;
+		this.commentId=comment_id;
 		this.comment=comment;
-		this.main_num=main_num;
+		this.mainNum=main_num;
 		this.recomment=recomment;
-		this.comment_num=comment_num;
+		this.commentNum=comment_num;
 	}
 	public int getNum() {
 		return num;
@@ -27,11 +27,11 @@ public class Comment {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	public int getMain_num() {
-		return main_num;
+	public int getMainNum() {
+		return mainNum;
 	}
-	public void setMain_num(int main_num) {
-		this.main_num = main_num;
+	public void setMainNum(int main_num) {
+		this.mainNum = main_num;
 	}
 	public int getRecomment() {
 		return recomment;
@@ -39,17 +39,17 @@ public class Comment {
 	public void setRecomment(int recomment) {
 		this.recomment = recomment;
 	}
-	public int getComment_num() {
-		return comment_num;
+	public int getCommentNum() {
+		return commentNum;
 	}
-	public void setComment_num(int comment_num) {
-		this.comment_num = comment_num;
+	public void setCommentNum(int comment_num) {
+		this.commentNum = comment_num;
 	}
-	public String getComment_id() {
-		return comment_id;
+	public String getCommentId() {
+		return commentId;
 	}
-	public void setComment_id(String comment_id) {
-		this.comment_id = comment_id;
+	public void setCommentId(String comment_id) {
+		this.commentId = comment_id;
 	}
 	
 }

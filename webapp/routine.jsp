@@ -9,6 +9,9 @@
 		<link rel="stylesheet" href="style_rout.css">
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+		<style>
+			
+		</style>
 	</head>
 	<body>
 		<%
@@ -97,9 +100,9 @@
 				}
 				li.style.backgroundColor="lightgray";
 				$("#day").val(day);
-				$("#put").html("<li id='plus'>+</li>");
-				num=1;
-				arr=new Array();	
+				$("#put").html("<li id='plus'>+</li>");	//리스트 초기화
+				num=1;									//리스트 길이
+				arr=new Array();						//배열 초기화
 			}
 			var drag;
 			function showPart(part){
@@ -129,22 +132,34 @@
 				for(var i=0; i<drag.length; i++){
 					drag[i].addEventListener("dragstart",function(e){
 						e.dataTransfer.setData("data",this.innerHTML)
+						this.style.opacity='0.9';
 					});
+					drag[i].addEventListener("dragenter",function(e){
+						e.dataTransfer.setData("data",this.innerHTML)
+						console.log("=============확인해보자!!!");
+						console.log(e.target);
+						this.style.opacity='0.9';
+					});
+					
 				}
 			}
 			
 			var put=document.getElementById("put");
-			var num=1;
+			var num=1;		//리스트 길이값
 			var arr=new Array();
+			
 			put.addEventListener("dragover",function(e){
+				console.log(e);
 				e.preventDefault();
+				//e.setAttribute("style","opacity:0.5");
+				
 			});
 			put.addEventListener("drop",function(e){
 				e.preventDefault();
 				
 				var plus=document.getElementById("plus");
 				if(plus!=null){
-					plus.remove();
+					plus.remove();		//리스트 추가 시 +내용 없애기
 				}
 				var data=e.dataTransfer.getData("data")
 				put.innerHTML+="<li id='drop' value='"+data+"'>"+data+
@@ -152,9 +167,9 @@
 				$("#len").val(num);
 				arr.push(data);
 				var str_arr=JSON.stringify(arr);
-				$("#arr").val(str_arr);
-				num++;
-				
+				$("#arr").val(str_arr);			//배열 히든태그에 추가
+				num++;							//길이 늘려주기
+				deleteLi();
 			});
 			
 			$("#put").sortable({
@@ -168,6 +183,7 @@
 					console.log(page_value);
 					var str_value=JSON.stringify(page_value);
 					$("#arr").val(str_value);
+					
 				}
 			});
 			//유효성 검사
@@ -193,7 +209,27 @@
 			}
 			$("form input[type='button']").click(function(){
 				put.innerHTML="<li id='plus'>+</li>";
+				$("#arr").val("");
+				arr=new Array();		//배열 초기화
 			});
+			//리스트 삭제
+			function deleteLi(){
+				$("#put li").each(function(){
+					$(this).click(function(){
+						var data=$(this).text().split("세트")[0];
+						for(var i=0; i<arr.length; i++){
+							if(arr[i]==data){
+								console.log(arr);
+								arr.splice(i,1);
+								var str_arr=JSON.stringify(arr);
+								$("#arr").val(str_arr);
+								break;
+							}
+						}
+						$(this).remove();
+					});
+				});
+			}
 		</script>
 	</body>
 </html>
