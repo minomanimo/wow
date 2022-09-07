@@ -294,7 +294,9 @@
 					});
 				});
 			}
-			//이슈 1:리스트 삭제처리
+			//이슈 1:리스트 삭제처리!!
+			//이슈 2:요일 변경 후 추가할때 array length because "day" is null 이딴거 뜸 원인 불명
+			//이슈 3:루틴 추가 후 요일 값 못받아와서 수정했는데 확인 필요
 			
 			$("#opencheck").click(function(){
 				$("#daycheck").attr("style","display:block");
