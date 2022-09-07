@@ -3,14 +3,15 @@ package member;
 public class Routine {
 	private String id;
 	private String day;
-	
+	private int idx;
 	private String name;
 	private int sets;
 	private int kg;
 	private int reps;
-	public Routine(String id, String day, String name, int sets, int kg, int reps) {
+	public Routine(String id, String day, int idx, String name, int sets, int kg, int reps) {
 		this.id=id;
 		this.day=day;
+		this.idx=idx;
 		this.name=name;
 		this.sets=sets;
 		this.kg=kg;
@@ -52,6 +53,12 @@ public class Routine {
 	}
 	public void setReps(int reps) {
 		this.reps = reps;
+	}
+	public int getIdx() {
+		return idx;
+	}
+	public void setIdx(int idx) {
+		this.idx = idx;
 	}
 	
 }

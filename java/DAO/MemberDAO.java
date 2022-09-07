@@ -632,47 +632,108 @@ public class MemberDAO {
 		Connection conn=null;
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
-		String sql="select * from routine where userid=? and day=? and name=?";
+		String sql="delete from routine where id=? and day=?";
 		try {
 			conn=getConnection();
 			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, Rlist.get(0).getId());
+			pstmt.setString(2, Rlist.get(0).getDay());
+			pstmt.executeUpdate();
 			for(int i=0; i<Rlist.size(); i++) {
+				sql="insert into routine (userid, day, idx, name, sets, kg, reps) values (?,?,?,?,?,?,?)";
+				pstmt=conn.prepareStatement(sql);
+				
 				pstmt.setString(1, Rlist.get(i).getId());
 				pstmt.setString(2, Rlist.get(i).getDay());
-				pstmt.setString(3, Rlist.get(i).getName());
-				rs=pstmt.executeQuery();
+				pstmt.setInt(3, i);
+				pstmt.setString(4, Rlist.get(i).getName());
+				pstmt.setInt(5, Rlist.get(i).getSets());
+				pstmt.setInt(6, Rlist.get(i).getKg());
+				pstmt.setInt(7, Rlist.get(i).getReps());
 				
-				if(rs.next()) {
-					sql="update routine set sets=?, kg=?, reps=?, idx=? where userid=? and day=? and name=?";
-					pstmt=conn.prepareStatement(sql);
-					pstmt.setInt(1, Rlist.get(i).getSets());
-					pstmt.setInt(2, Rlist.get(i).getKg());
-					pstmt.setInt(3, Rlist.get(i).getReps());
-					pstmt.setInt(4, i);
-					pstmt.setString(5, Rlist.get(i).getId());
-					pstmt.setString(6, Rlist.get(i).getDay());
-					pstmt.setString(7, Rlist.get(i).getName());
-					pstmt.executeUpdate();
-					
-				}else {
-					sql="insert into routine (userid, day, idx, name, sets, kg, reps) values (?,?,?,?,?,?,?)";
-					pstmt=conn.prepareStatement(sql);
-					
-					pstmt.setString(1, Rlist.get(i).getId());
-					pstmt.setString(2, Rlist.get(i).getDay());
-					pstmt.setInt(3, i);
-					pstmt.setString(4, Rlist.get(i).getName());
-					pstmt.setInt(5, Rlist.get(i).getSets());
-					pstmt.setInt(6, Rlist.get(i).getKg());
-					pstmt.setInt(7, Rlist.get(i).getReps());
-					
-					pstmt.executeUpdate();
-				}
+				pstmt.executeUpdate();
 			}
 		}catch(Exception e) {
 			System.out.println("setRoutine() 실행중 오류발생 : "+e);
+			e.printStackTrace();
 		}finally {
 			MemberDAO.close(conn, pstmt, rs);
 		}
+	}
+	public ArrayList<Routine> getRoutine(String id, String day){
+		ArrayList<Routine> list=new ArrayList<Routine>();
+		Routine r=null;
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		String sql="select * from routine where userid=? and day=?";
+		try {
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, day);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				String userid=rs.getString("userid");
+				String days=rs.getString("day");
+				int idx=rs.getInt("idx");
+				String name=rs.getString("name");
+				int sets=rs.getInt("sets");
+				int kg=rs.getInt("kg");
+				int reps=rs.getInt("reps");
+				r=new Routine(userid, days, idx, name, sets, kg, reps);
+				list.add(r);
+			}
+		}catch(Exception e) {
+			System.out.println("getRoutine() 실행중 오류발생 : "+e);
+		}finally {
+			MemberDAO.close(conn, pstmt, rs);
+		}
+		return list;
+	}
+	public void setDaysOfRoutine(String[] day, String id) {
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		String sql="delete from dayselect where id=?";
+		try {
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.executeUpdate();
+			for(int i=0; i<day.length; i++) {
+				sql="insert into dayselect (day, id) values (?, ?)";
+				pstmt=conn.prepareStatement(sql);
+				pstmt.setString(1, day[i]);
+				pstmt.setString(2, id);
+				pstmt.executeUpdate();
+			}
+			
+		}catch(Exception e) {
+			System.out.println("setDaysOfRoutine() 실행중 오류발생 : "+e);
+		}finally {
+			MemberDAO.close(conn, pstmt);
+		}
+	}
+	public ArrayList<String> getDaysOfRoutine(String id) {
+		ArrayList<String> list=new ArrayList<String>();
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		String sql="select * from dayselect where id=?";
+		try {
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				list.add(rs.getString("day"));
+			}
+		}catch(Exception e) {
+			System.out.println("getDaysOfRoutine() 실행중 오류발생"+e);
+		}finally {
+			MemberDAO.close(conn, pstmt, rs);
+		}
+		return list;
 	}
 }

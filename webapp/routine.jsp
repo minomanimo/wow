@@ -34,28 +34,35 @@
 					<p>Workout anyWay</p>
 				</a>
 			</div>
-		<%
-				request.setCharacterEncoding("utf-8");
-				//String time=request.getParameter("time");
-				String[] day=request.getParameterValues("day");
-		%>
-			<div id="header">
-				<ul>
-				<%
-					for(int i=0; i<day.length; i++){
-				%>
-						<li id="<%=i %>">
-							<a href='#' onclick="dayOnClick('<%=day[i]%>','<%=i %>')">
-				<%
-							out.print(day[i]);
-				%>
-							</a>
-						</li>
-				<%	
-					}
-				%>
-				</ul>
+			<c:if test="${day.size() ne 0 }">
+				<div id="header">
+					<ul>
+					<c:forEach items="${day }" var="day">
+							<li>
+								<a href='#' onclick="dayOnClick(${day})">
+									${day }
+								</a>
+							</li>
+					</c:forEach>
+					</ul>
+				</div>
+			</c:if>
+			<div id="opencheck">요일 선택</div>
+			<div id="daycheck">
+				<form method="get" action="routine.do">
+					<span>운동 요일을 선택하세요.</span>
+					<label for="mon">월<input type="checkbox" id="mon" value="월" name="day"></label>
+					<label for="tue">화<input type="checkbox" id="tue" value="화" name="day"></label>
+					<label for="wed">수<input type="checkbox" id="wed" value="수" name="day"></label>
+					<label for="thu">목<input type="checkbox" id="thu" value="목" name="day"></label>
+					<label for="fri">금<input type="checkbox" id="fri" value="금" name="day"></label>
+					<label for="sat">토<input type="checkbox" id="sat" value="토" name="day"></label>
+					<label for="sun">일<input type="checkbox" id="sun" value="일" name="day"></label>
+					<input type="submit" value="확인">
+					<input type="button" value="취소">
+				</form>
 			</div>
+		
 			<div id="main">
 				<div id="choose">
 					<p>1. 요일을 선택하세요.</p>
@@ -83,7 +90,7 @@
 						
 					</ul>
 					<input type="hidden" id="len" name="len" value="">
-					<input type="hidden" name="id" value="${userid }">
+					<input type="hidden" id="id" name="id" value="${userid }">
 					<input type="hidden" id="day" name="day" value="">
 					<input type="hidden" id="arr" name="arr">
 					<input type="submit" value="저장" onclick="return submitClick()">
@@ -92,7 +99,7 @@
 			</div>
 		</div>
 		<script>
-			function dayOnClick(day, i){
+			function dayOnClick(day){
 				var li=document.getElementById(i);
 				var lis=document.getElementsByTagName("li");
 				for(var i=0; i<lis.length; i++){
@@ -103,6 +110,44 @@
 				$("#put").html("<li id='plus'>+</li>");	//리스트 초기화
 				num=1;									//리스트 길이
 				arr=new Array();						//배열 초기화
+				//루틴 리스트 불러오기
+				var id=$("#id").val();
+				$.ajax({
+					url : "getRoutine.do",
+					method : "POST",
+					async : true,
+					data : {
+						"day" : day,
+						"userid" : id
+					},
+					success : function(data){
+						if(data.getElementsByTagName("name").length!=0){
+							$("#plus").remove();
+						}
+						var name=data.getElementsByTagName("name");
+						var idx=data.getElementsByTagName("idx");
+						var sets=data.getElementsByTagName("sets");
+						var kg=data.getElementsByTagName("kg");
+						var reps=data.getElementsByTagName("reps");
+						var name_arr=new Array;
+						var put=document.getElementById("put");
+						for(var i=0; i<name.length; i++){
+							put.innerHTML+="<li id='drop' value='"+name[i].firstChild.data+"'>"+name[i].firstChild.data+
+								"<div class='input'>세트<input type='text' value='"
+								+sets[i].firstChild.data+"'>중량<input type='text' value='"
+								+kg[i].firstChild.data+"'>횟수<input type='text' value='"
+								+reps[i].firstChild.data+"'><div class='x'>X</div></div></li>";
+							name_arr.push(name[i].firstChild.data);
+						}
+						$("#len").val(name.length);
+						var str_name=JSON.stringify(name_arr);
+						$("#arr").val(str_name);
+						
+					},
+					error : function(log){
+						console.log("오류발생 : "+log)
+					}
+				});
 			}
 			var drag;
 			function showPart(part){
@@ -168,7 +213,7 @@
 				}
 				var data=e.dataTransfer.getData("data")
 				put.innerHTML+="<li id='drop' value='"+data+"'>"+data+
-				"<div class='input'>세트<input type='text'>중량<input type='text'>횟수<input type='text'><div class='x'>X</div></div>"+"</li>";
+				"<div class='input'>세트<input type='text'>중량<input type='text'>횟수<input type='text'><div class='x'>X</div></div></li>";
 				$("#len").val(num);
 				arr.push(data);
 				var str_arr=JSON.stringify(arr);
@@ -211,7 +256,7 @@
 					flag=false;
 				}
 				if(flag){
-					var num=1;
+					var n=1;
 					var name=["sets","kg","reps"];
 					$(".input").each(function(){
 						var input=this.getElementsByTagName("input");
@@ -220,10 +265,10 @@
 							var newInput=document.createElement("input");
 							newInput.setAttribute("type","hidden");
 							newInput.setAttribute("value",input[i].value);
-							newInput.setAttribute("name",name[i]+num);
+							newInput.setAttribute("name",name[i]+n);
 							$("#put").append(newInput);
 						}
-						num++;
+						n++;
 					});
 				}
 				return flag;
@@ -251,7 +296,12 @@
 			}
 			//이슈 1:리스트 삭제처리
 			
-			
+			$("#opencheck").click(function(){
+				$("#daycheck").attr("style","display:block");
+			});
+			$("#daycheck input[type='button']").click(function(){
+				$("#daycheck").attr("style","");
+			});
 		</script>
 	</body>
 </html>

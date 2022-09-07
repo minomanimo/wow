@@ -156,7 +156,7 @@ input[type='button']{
 	cursor:pointer;
 	
 }
-form{
+#main form{
 	float:right;
 	width:55%;
 	
@@ -174,4 +174,29 @@ li{
     text-align: center;
     cursor: pointer;
     margin-left:13px;
+}
+#opencheck{
+	width: 100px;
+    border: 1px solid black;
+    text-align: center;
+    cursor: pointer;
+    margin: 0 auto;
+}
+#daycheck{
+	width: 44%;
+    height: 200px;
+    background-color: white;
+    border-radius: 4px;
+    position: fixed;
+    right: 300px;
+    line-height: 60px;
+    display: none;
+}
+#daycheck span{
+	display:block;
+	
+}
+#daycheck label{
+	width:11%;
+	display:inline-block;
 }

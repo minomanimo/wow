@@ -52,11 +52,14 @@ public class setRoutineServlet extends HttpServlet {
 		
 		ArrayList<Routine> routineList=new ArrayList<Routine>();
 		for(int i=0; i<len; i++) {
-			Routine routine=new Routine(id, day, arr[i], sets[i], kg[i], reps[i]);
+			Routine routine=new Routine(id, day, i, arr[i], sets[i], kg[i], reps[i]);
 			routineList.add(routine);
 		}
 		MemberDAO DAO=MemberDAO.getInstance();
 		DAO.setRoutine(routineList);
+		ArrayList<String> list=DAO.getDaysOfRoutine(id);
+		request.setAttribute("day", list);
+		request.getRequestDispatcher("routine.jsp").forward(request, response);
 	}
 
 }
