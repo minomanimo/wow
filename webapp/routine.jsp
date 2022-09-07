@@ -60,7 +60,7 @@
 				<div id="choose">
 					<p>1. 요일을 선택하세요.</p>
 					<p>2. 운동을 선택하세요.</p>
-					<ul>
+					<ul id="part">
 						<li><a href="#" id="part1" onclick="showPart('all')">전체</a></li>
 						<li><a href="#" id="part2" onclick="showPart('chest')">가슴</a></li>
 						<li><a href="#" id="part3" onclick="showPart('back')">등</a></li>
@@ -117,7 +117,7 @@
 							var ul=document.getElementById("list").getElementsByTagName("ul")[0];
 							ul.innerHTML="";
 							for(var i=0; i<name.length; i++){
-								ul.innerHTML+="<li draggable='true' class='drag'>"+name[i].firstChild.data+"</li>";
+								ul.innerHTML+="<li draggable='true' id='drag' class='drag'>"+name[i].firstChild.data+"</li>";
 							}
 							drag=document.getElementsByClassName("drag");
 							dragEvent(drag);
@@ -134,7 +134,11 @@
 				for(var i=0; i<drag.length; i++){
 					drag[i].addEventListener("dragstart",function(e){
 						e.dataTransfer.setData("data",this.innerHTML)
+						var clone=this.cloneNode(true);
 						
+						clone.setAttribute("style","position:absolute; top:0px; left:-400px;list-style:none; color:white; background-color:#3BA683; width:290px; height:50px; line-height:50px; border-radius:7px;")
+						document.body.appendChild(clone);
+						e.dataTransfer.setDragImage(clone,0,0);
 					});
 					
 				}
@@ -147,24 +151,29 @@
 			put.addEventListener("dragover",function(e){
 				
 				e.preventDefault();
+				this.setAttribute("style","background-color:lightgray");
 				//e.setAttribute("style","opacity:0.5");
 				
 			});
+			put.addEventListener("dragleave",function(e){
+				e.preventDefault();
+				this.setAttribute("style","");
+			});
 			put.addEventListener("drop",function(e){
 				e.preventDefault();
-				
+				this.setAttribute("style","");
 				var plus=document.getElementById("plus");
 				if(plus!=null){
 					plus.remove();		//리스트 추가 시 +내용 없애기
 				}
 				var data=e.dataTransfer.getData("data")
 				put.innerHTML+="<li id='drop' value='"+data+"'>"+data+
-				"<div id='input'>세트<input type='text' name='sets"+num+"'>중량<input type='text' name='kg"+num+"'>횟수<input type='text' name='reps"+num+"'><div class='x'>X</div></div>"+"</li>";
+				"<div class='input'>세트<input type='text'>중량<input type='text'>횟수<input type='text'><div class='x'>X</div></div>"+"</li>";
 				$("#len").val(num);
 				arr.push(data);
 				var str_arr=JSON.stringify(arr);
 				$("#arr").val(str_arr);			//배열 히든태그에 추가
-				num++;							//길이 늘려주기
+				num++;							//length값 올리기
 				deleteLi();
 			});
 			
@@ -201,6 +210,22 @@
 					alert("요일을 선택해 주세요");
 					flag=false;
 				}
+				if(flag){
+					var num=1;
+					var name=["sets","kg","reps"];
+					$(".input").each(function(){
+						var input=this.getElementsByTagName("input");
+						for(var i=0; i<input.length; i++){
+							var inputVal=input[i].value;
+							var newInput=document.createElement("input");
+							newInput.setAttribute("type","hidden");
+							newInput.setAttribute("value",input[i].value);
+							newInput.setAttribute("name",name[i]+num);
+							$("#put").append(newInput);
+						}
+						num++;
+					});
+				}
 				return flag;
 			}
 			$("form input[type='button']").click(function(){
@@ -225,7 +250,8 @@
 				});
 			}
 			//이슈 1:리스트 삭제처리
-			//이슈 2:sets kg reps input들 id 수정필요
+			
+			
 		</script>
 	</body>
 </html>

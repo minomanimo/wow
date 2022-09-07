@@ -38,7 +38,7 @@
 	width:44%;
 	display:inline-block;
 }
-#choose li{
+#part li{
 	list-style:none;
 	float:left;
 	height:30px;
@@ -47,17 +47,17 @@
 	padding-bottom:2px;
 	font-weight:bold;
 }
-#choose li:after{
+#part li:after{
 	content:"";
 	display:block;
 	clear:both;
 }
-#choose li:hover{
+#part li:hover{
 	padding-bottom:0px;
 	border-bottom:2px solid gray;
 	transition:.1s;
 }
-#list li{
+#drag{
 	background-color:#3BA683;
 	color:white;
 	font-weight:bold;
@@ -119,16 +119,16 @@
 	margin:10px auto;
 	border-radius:7px;
 }
-#input input{
+.input input{
 	width:26px;
 }
-#input{
+.input{
 	float:right;
 	width:220px;
 	line-height:50px;
 	font-weight:normal;
 }
-#input:after{
+.input:after{
 	content:"";
 	display:block;
 	clear:both;

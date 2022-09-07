@@ -9,6 +9,7 @@ import javax.servlet.http.*;
 import org.json.simple.*;
 import org.json.simple.parser.*;
 
+import DAO.MemberDAO;
 import member.Routine;
 
 
@@ -54,6 +55,8 @@ public class setRoutineServlet extends HttpServlet {
 			Routine routine=new Routine(id, day, arr[i], sets[i], kg[i], reps[i]);
 			routineList.add(routine);
 		}
+		MemberDAO DAO=MemberDAO.getInstance();
+		DAO.setRoutine(routineList);
 	}
 
 }

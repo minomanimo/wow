@@ -641,7 +641,7 @@ public class MemberDAO {
 				pstmt.setString(2, Rlist.get(i).getDay());
 				pstmt.setString(3, Rlist.get(i).getName());
 				rs=pstmt.executeQuery();
-				pstmt.close();
+				
 				if(rs.next()) {
 					sql="update routine set sets=?, kg=?, reps=?, idx=? where userid=? and day=? and name=?";
 					pstmt=conn.prepareStatement(sql);
@@ -653,7 +653,7 @@ public class MemberDAO {
 					pstmt.setString(6, Rlist.get(i).getDay());
 					pstmt.setString(7, Rlist.get(i).getName());
 					pstmt.executeUpdate();
-					pstmt.close();
+					
 				}else {
 					sql="insert into routine (userid, day, idx, name, sets, kg, reps) values (?,?,?,?,?,?,?)";
 					pstmt=conn.prepareStatement(sql);
