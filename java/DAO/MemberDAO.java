@@ -632,7 +632,7 @@ public class MemberDAO {
 		Connection conn=null;
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
-		String sql="delete from routine where id=? and day=?";
+		String sql="delete from routine where userid=? and day=?";
 		try {
 			conn=getConnection();
 			pstmt=conn.prepareStatement(sql);

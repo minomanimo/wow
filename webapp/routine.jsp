@@ -39,7 +39,7 @@
 					<ul>
 					<c:forEach items="${day }" var="day">
 							<li>
-								<a href='#' onclick="dayOnClick(${day})">
+								<a href='#' onclick="dayOnClick(event)">
 									${day }
 								</a>
 							</li>
@@ -47,21 +47,23 @@
 					</ul>
 				</div>
 			</c:if>
-			<div id="opencheck">요일 선택</div>
-			<div id="daycheck">
-				<form method="get" action="routine.do">
-					<span>운동 요일을 선택하세요.</span>
-					<label for="mon">월<input type="checkbox" id="mon" value="월" name="day"></label>
-					<label for="tue">화<input type="checkbox" id="tue" value="화" name="day"></label>
-					<label for="wed">수<input type="checkbox" id="wed" value="수" name="day"></label>
-					<label for="thu">목<input type="checkbox" id="thu" value="목" name="day"></label>
-					<label for="fri">금<input type="checkbox" id="fri" value="금" name="day"></label>
-					<label for="sat">토<input type="checkbox" id="sat" value="토" name="day"></label>
-					<label for="sun">일<input type="checkbox" id="sun" value="일" name="day"></label>
-					<input type="submit" value="확인">
-					<input type="button" value="취소">
-				</form>
+			<div style="position:relative"><span id="opencheck">요일 선택</span>
+				<div id="daycheck">
+					<form method="get" action="routine.do">
+						<span>운동 요일을 선택하세요.</span>
+						<label for="mon">월<input type="checkbox" id="mon" value="월" name="day"></label>
+						<label for="tue">화<input type="checkbox" id="tue" value="화" name="day"></label>
+						<label for="wed">수<input type="checkbox" id="wed" value="수" name="day"></label>
+						<label for="thu">목<input type="checkbox" id="thu" value="목" name="day"></label>
+						<label for="fri">금<input type="checkbox" id="fri" value="금" name="day"></label>
+						<label for="sat">토<input type="checkbox" id="sat" value="토" name="day"></label>
+						<label for="sun">일<input type="checkbox" id="sun" value="일" name="day"></label>
+						<input type="submit" value="확인">
+						<input type="button" value="취소">
+					</form>
+				</div>
 			</div>
+			
 		
 			<div id="main">
 				<div id="choose">
@@ -99,13 +101,18 @@
 			</div>
 		</div>
 		<script>
-			function dayOnClick(day){
-				var li=document.getElementById(i);
-				var lis=document.getElementsByTagName("li");
-				for(var i=0; i<lis.length; i++){
-					lis[i].style.backgroundColor="white";
-				}
-				li.style.backgroundColor="lightgray";
+			var num=1;		//리스트 길이값
+			var arr=new Array();
+			function dayOnClick(event){
+				
+				$("#header li").each(function(){
+					this.style.backgroundColor="white";
+				});
+				
+				
+				var a=event.target;
+				var day=a.innerText;
+				a.parentNode.style.backgroundColor="lightgray";
 				$("#day").val(day);
 				$("#put").html("<li id='plus'>+</li>");	//리스트 초기화
 				num=1;									//리스트 길이
@@ -129,7 +136,7 @@
 						var sets=data.getElementsByTagName("sets");
 						var kg=data.getElementsByTagName("kg");
 						var reps=data.getElementsByTagName("reps");
-						var name_arr=new Array;
+						var name_arr=new Array();
 						var put=document.getElementById("put");
 						for(var i=0; i<name.length; i++){
 							put.innerHTML+="<li id='drop' value='"+name[i].firstChild.data+"'>"+name[i].firstChild.data+
@@ -138,16 +145,18 @@
 								+kg[i].firstChild.data+"'>횟수<input type='text' value='"
 								+reps[i].firstChild.data+"'><div class='x'>X</div></div></li>";
 							name_arr.push(name[i].firstChild.data);
+							num++;
 						}
 						$("#len").val(name.length);
 						var str_name=JSON.stringify(name_arr);
 						$("#arr").val(str_name);
-						
+						deleteLi();
 					},
 					error : function(log){
 						console.log("오류발생 : "+log)
 					}
 				});
+				
 			}
 			var drag;
 			function showPart(part){
@@ -190,8 +199,7 @@
 			}
 			
 			var put=document.getElementById("put");
-			var num=1;		//리스트 길이값
-			var arr=new Array();
+			
 			
 			put.addEventListener("dragover",function(e){
 				
@@ -215,7 +223,11 @@
 				put.innerHTML+="<li id='drop' value='"+data+"'>"+data+
 				"<div class='input'>세트<input type='text'>중량<input type='text'>횟수<input type='text'><div class='x'>X</div></div></li>";
 				$("#len").val(num);
-				arr.push(data);
+				arr=new Array();
+				$("#put li").each(function(){
+					arr.push($(this).attr("value"));
+				});
+				
 				var str_arr=JSON.stringify(arr);
 				$("#arr").val(str_arr);			//배열 히든태그에 추가
 				num++;							//length값 올리기
@@ -282,21 +294,22 @@
 			function deleteLi(){
 				$(".x").each(function(index){
 					$(this).click(function(){
-						var lis=document.getElementById("put").getElementsByTagName("li");
-						var data=lis[index].value;
-						lis[index].remove();
+						var li=this.parentNode.parentNode;
+						li.remove();
 						arr=new Array();
 						$("#put li").each(function(){
 							arr.push($(this).attr("value"));
-						});
+						})
 						var str_arr=JSON.stringify(arr);
-						$("#arr").val(str_arr);
+						$("#arr").val(str_arr)
+						num--;
+						$("#len").val(num);
 					});
 				});
 			}
-			//이슈 1:리스트 삭제처리!!
-			//이슈 2:요일 변경 후 추가할때 array length because "day" is null 이딴거 뜸 원인 불명
-			//이슈 3:루틴 추가 후 요일 값 못받아와서 수정했는데 확인 필요
+			//이슈 1:리스트 삭제처리!! //리스트 삭제하면 length(num)도 바꿔줘야함.
+			//이슈 2:요일 변경 후 추가할때 array length because "day" is null 이딴거 뜸 원인 불명 이제 또 안뜸 뭐지?
+			
 			
 			$("#opencheck").click(function(){
 				$("#daycheck").attr("style","display:block");
