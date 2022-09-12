@@ -18,7 +18,7 @@
 					<li><a href="community.do">커뮤니티</a></li>
 					<li><a href="workout.jsp">운동</a></li>
 					<li><a href="routine.do">루틴</a></li>
-					<li><a href="#">투데이</a></li>
+					<li><a href="today.do">투데이</a></li>
 				</ul>
 			</div>
 			<%

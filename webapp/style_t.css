@@ -1,0 +1,99 @@
+@charset "utf-8";
+*{
+	padding:0;
+	margin:0;
+}
+#wrap{
+	width:50%;
+	margin:0 auto;
+}
+#logo{
+	text-align:center;
+	
+}
+#logo a{
+	text-decoration:none;
+	color:black;
+}
+#main{
+	border:1px solid lightgray;
+	width: 90%;
+    margin: 0 auto;
+    margin-top: 20px
+}
+#main p{
+	font-size:1.2em;
+	margin: 10px;
+    padding-left: 10%;
+}
+#main li{
+	list-style:none;
+	width:80%;
+	height:50px;
+	background-color:#3BA683;
+	cursor:pointer;
+	color:white;
+	border-radius:5px;
+	margin:5px auto;
+	text-align:center;
+	line-height:50px;
+	font-weight:bold;
+}
+#main span{
+	font-size:0.9em;
+	padding-left:10%;
+	margin:10px;
+}
+.list{
+	width:90%;
+	margin:0 auto;
+	border:1px solid lightgray;
+	margin-top:20px;
+	display:none;
+}
+#name{
+	list-style:none;
+	width:80%;
+	height:50px;
+	background-color:#3BA683;
+	color:white;
+	border-radius:5px;
+	margin:5px auto;
+	text-align:center;
+	line-height:50px;
+	font-weight:bold;
+	margin-top:15px;
+}
+.list table{
+	width:90%;
+	margin:0 auto;
+}
+.list input[type="text"]{
+	width:30px;
+	display:block;
+	margin:0 auto;
+}
+.list th:first-child{
+	width:60%;
+}
+.list tr td:first-child{
+	text-align:center;
+}
+.list input[type="submit"]{
+	background-color:#3BA683;
+	color:white;
+	font-weight:bold;
+	width:20%;
+	border:0;
+	margin:5px;
+	border-radius:5px;
+	cursor:pointer;
+}
+.list input[type="button"]{
+	font-weight:bold;
+	width:20%;
+	border:0;
+	margin:5px;
+	border-radius:5px;
+	cursor:pointer;
+}

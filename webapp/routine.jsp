@@ -21,7 +21,7 @@
 			}else{
 		%>
 				<script>
-					alert("로그인이 필요한 기능입니다.");
+					alert("로그인 후 이용하실 수 있습니다.");
 					location.href="index.jsp";
 				</script>
 		<%		
@@ -285,7 +285,7 @@
 				}
 				return flag;
 			}
-			$("form input[type='button']").click(function(){
+			$("#main input[type='button']").click(function(){
 				put.innerHTML="<li id='plus'>+</li>";
 				$("#arr").val("");
 				arr=new Array();		//배열 초기화
@@ -307,7 +307,7 @@
 					});
 				});
 			}
-			//이슈 1:리스트 삭제처리!! //리스트 삭제하면 length(num)도 바꿔줘야함.
+
 			//이슈 2:요일 변경 후 추가할때 array length because "day" is null 이딴거 뜸 원인 불명 이제 또 안뜸 뭐지?
 			
 			

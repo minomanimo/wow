@@ -681,7 +681,8 @@ public class MemberDAO {
 				int sets=rs.getInt("sets");
 				int kg=rs.getInt("kg");
 				int reps=rs.getInt("reps");
-				r=new Routine(userid, days, idx, name, sets, kg, reps);
+				r=new Routine(userid, days, idx, name, sets, kg, reps); 
+				r.setNum(rs.getInt("num"));
 				list.add(r);
 			}
 		}catch(Exception e) {
@@ -736,4 +737,27 @@ public class MemberDAO {
 		}
 		return list;
 	}
+	public void setTodaysWork(String id, String day, String name, int[] sets, int[] kg, int[] reps) {
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		String sql="insert into todayswork (id, day, name, sets, kg, reps) values (?,?,?,?,?,?)";
+		try {
+			conn=getConnection();
+			for(int i=0; i<sets.length; i++) {
+				pstmt=conn.prepareStatement(sql);
+				pstmt.setString(1, id);
+				pstmt.setString(2, day);
+				pstmt.setString(3, name);
+				pstmt.setInt(4, sets[i]);
+				pstmt.setInt(5, kg[i]);
+				pstmt.setInt(6, reps[i]);
+				pstmt.executeUpdate();
+			}
+		}catch(Exception e) {
+			System.out.println("setTodaysWork() 실행중 오류발생 : "+e);
+		}finally {
+			MemberDAO.close(conn, pstmt);
+		}
+	}
+	
 }

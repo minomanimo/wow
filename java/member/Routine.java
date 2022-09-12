@@ -1,6 +1,7 @@
 package member;
 
 public class Routine {
+	private int num;
 	private String id;
 	private String day;
 	private int idx;
@@ -17,6 +18,15 @@ public class Routine {
 		this.kg=kg;
 		this.reps=reps;
 	}
+	
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
+	}
+
 	public String getId() {
 		return id;
 	}
