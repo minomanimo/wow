@@ -1,6 +1,9 @@
 package controller;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import javax.servlet.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
@@ -29,6 +32,8 @@ public class CommunityServlet extends HttpServlet {
 			}
 		}
 		ArrayList<Community> Alist=mDAO.getCommu(category, null, null, currentPage);
+		
+		
 //		int idx=Alist.size();
 //		String[] id=new String[idx];
 //		String[] title=new String[idx];

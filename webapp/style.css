@@ -21,22 +21,22 @@
 	display:block;
 	clear:both;
 }
-#wrap li{
+#head li{
 	list-style: none;
     display: inline-block;
     font-size: 1.2em;
     margin: 0px 50px;
 }
-#wrap li:hover{
+#head li:hover{
 	border-bottom:2px solid gray;
 	padding-bottom:3px;
 	transition:.1s;
 }
-#wrap li a{
+#head li a{
 	text-decoration:none;
 	color:black;
 }
-#wrap ul{
+#head ul{
 	margin-top: 20px;
     float: left;
     display:block;
@@ -76,7 +76,7 @@
 }
 #recommend{
 	float:left;
-	margin-top:100px;
+
 }
 #recommend:after{
 	content:"";
@@ -84,11 +84,10 @@
 	clear:both;
 }
 #community{
-	border:3px solid lightgray;
-	width:44%;
-	height:300px;
+	border:1px solid lightgray;
+	width:47%;
 	float:left;
-	margin-top:100px;
+
 }
 #head{
 	border-bottom:1px solid lightgray;
@@ -116,4 +115,53 @@
 	color:black;
 	border:1px solid gray;
 	background-color:buttonface;
+}
+#community li{
+	list-style:none;
+	font-size:0.8em;
+	margin:1px 13px;
+	cursor:pointer;
+}
+#community li:hover{
+	text-decoration:underline;
+	font-size:1em;
+	transition:.2s;
+}
+#more{
+	text-decoration:none;
+	color:gray;
+	float:right;
+	margin-right:5px;	
+	margin-top:5px;
+	font-weight:bold;
+	background-color:lightgray;
+	display:block;
+	width:15px;
+	height:15px;
+	border-radius:2px;
+	line-height:10px;
+	text-align:center;
+	font-size:1.2em;
+}
+#more:hover{
+	width:20px;
+	height:20px;
+	font-size:1.5em;
+	line-height:12px;
+	transition:.2s;
+}
+#community li a{
+	text-decoration:none;
+	color:black;
+}
+#community span{
+	font-size:0.9em;
+	margin:1px 5px;
+	color:#15667C;
+	font-weight:bold;
+}
+#commuhead{
+	border-bottom: 2px solid #3BA683;
+    margin: 2px 10px;
+    padding: 5px;
 }

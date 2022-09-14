@@ -307,7 +307,7 @@ public class MemberDAO {
 			pstmt.setString(5, "0");
 			pstmt.setString(6, "0");
 			LocalDateTime time=LocalDateTime.now(ZoneId.of("Asia/Seoul"));
-			DateTimeFormatter format=DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+			DateTimeFormatter format=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 			String timeformat=time.format(format);
 			pstmt.setString(7, timeformat);
 			flag=pstmt.executeUpdate();
@@ -336,7 +336,7 @@ public class MemberDAO {
 			
 			if(category!=null) {
 				if(category.equals("popular")) {
-					sql+=" order by likes desc limit ?, ?;";
+					sql+=" and month(time)>=month(now())-1 order by likes desc limit ?,?";
 					pstmt=conn.prepareStatement(sql);
 					pstmt.setInt(1, start);
 					pstmt.setInt(2, 20);
@@ -470,7 +470,7 @@ public class MemberDAO {
 				pstmt.setInt(2, num);
 				pstmt.setInt(3, islike);
 				LocalDate now=LocalDate.now();
-				DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy/MM/dd");
+				DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd");
 				String formatNow=now.format(formatter);
 				pstmt.setString(4, formatNow);
 				pstmt.executeUpdate();
@@ -740,12 +740,19 @@ public class MemberDAO {
 	public void setTodaysWork(String id, String day, String name, int[] sets, int[] kg, int[] reps) {
 		Connection conn=null;
 		PreparedStatement pstmt=null;
-		String sql="insert into todayswork (id, day, name, sets, kg, reps, date) values (?,?,?,?,?,?,?)";
+		String sql="delete from todayswork where id=? and day=? and name=? and date=?";
+		LocalDate now=LocalDate.now();
+		DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String date=now.format(formatter);
 		try {
 			conn=getConnection();
-			LocalDate now=LocalDate.now();
-			DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy/MM/dd");
-			String date=now.format(formatter);
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, day);
+			pstmt.setString(3, name);
+			pstmt.setString(4, date);
+			pstmt.executeUpdate();
+			sql="insert into todayswork (id, day, name, sets, kg, reps, date) values (?,?,?,?,?,?,?)";
 			for(int i=0; i<sets.length; i++) {
 				pstmt=conn.prepareStatement(sql);
 				pstmt.setString(1, id);
@@ -767,9 +774,9 @@ public class MemberDAO {
 		HashMap<String,Routine> map=new HashMap<String,Routine>();
 		
 		ArrayList<Routine> Rlist=getRoutine(id, day);
-		ArrayList<Integer> setslist=new ArrayList<Integer>();
-		ArrayList<Integer> kglist=new ArrayList<Integer>();
-		ArrayList<Integer> repslist=new ArrayList<Integer>();
+		ArrayList<Integer> setslist=null;
+		ArrayList<Integer> kglist=null;
+		ArrayList<Integer> repslist=null;
 		int[] sets=null;
 		int[] kg=null;
 		int[] reps=null;
@@ -778,7 +785,7 @@ public class MemberDAO {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		LocalDate now=LocalDate.now();
-		DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String date=now.format(formatter);
 		String sql="select * from todayswork where id=? and day=? and date=? and name=?";
 		try {
@@ -791,7 +798,11 @@ public class MemberDAO {
 				pstmt.setString(4, Rlist.get(i).getName());
 				rs=pstmt.executeQuery();
 				rt=new Routine();
+				setslist=new ArrayList<Integer>();
+				kglist=new ArrayList<Integer>();
+				repslist=new ArrayList<Integer>();
 				while(rs.next()) {
+					
 					rt.setName(rs.getString("name"));
 					setslist.add(rs.getInt("sets"));
 					kglist.add(rs.getInt("kg"));

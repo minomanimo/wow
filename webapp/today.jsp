@@ -76,15 +76,31 @@
 							}
 							request.setAttribute("kg",kg);
 							request.setAttribute("reps", reps);
-					%>	
 							
-							<c:forEach begin="1" end="${list.getSets() }" var="i">
-								<tr>
-									<td>${i }<input type="hidden" name="sets${i }" value="${i }"></td>
-									<td><input type="text" name="kg${i }" value="${kg[i-1] }"></td>
-									<td><input type="text" name="reps${i }" value="${reps[i-1] }"></td>
-								</tr>
-							</c:forEach>
+							if(map.get(list.get(num).getName())!=null){
+					%>
+								<c:forEach begin="1" end="${list.getSets() }" var="i">
+									<tr>
+										<td>${i }<input type="hidden" name="sets${i }" value="${i }"></td>
+										<td><input type="text" name="kg${i }" value="${kg[i-1] }"></td>
+										<td><input type="text" name="reps${i }" value="${reps[i-1] }"></td>
+									</tr>
+								</c:forEach>	
+					<%			
+							}else{
+					%>
+								<c:forEach begin="1" end="${list.getSets() }" var="i">
+									<tr>
+										<td>${i }<input type="hidden" name="sets${i }" value="${i }"></td>
+										<td><input type="text" name="kg${i }" value="${list.getKg() }"></td>
+										<td><input type="text" name="reps${i }" value="${list.getReps() }"></td>
+									</tr>
+								</c:forEach>
+					<%			
+							}
+					%>	
+					
+							
 						</table>
 						
 						<input type="hidden" name="id" value="<%=id%>">

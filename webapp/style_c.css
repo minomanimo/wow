@@ -16,13 +16,15 @@ a{
 }
 #write{
 	float:left;
-	background-color:#ababc7;
+	background-color:#15667c;
 	font-size:0.9em;
-	padding:3px;
+	padding:3px 10px;
 	border-radius:4px;
+	color:white;
+	font-weight:bold;
 }
 #write:hover{
-	background-color:#9a9abc;
+	background-color:#125669;
 }
 #search{
 	float:right;
