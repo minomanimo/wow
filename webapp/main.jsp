@@ -89,8 +89,8 @@
 			var player;
 			function onYouTubeIframeAPIReady(){
 				player=new YT.Player("player",{
-					width:'640',
-					height:'360',
+					width:'720',
+					height:'405',
 					videoId:'9lsqux_WcBo'
 				});
 			}
