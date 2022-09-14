@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.util.*" %>
+<%@ page import="member.*" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -58,14 +60,33 @@
 								<th>Kg</th>
 								<th>reps</th>
 							</tr>
+							
+					<%
+							HashMap<String, Routine> map=(HashMap<String, Routine>)request.getAttribute("map");	
+							ArrayList<Routine> list=(ArrayList<Routine>)request.getAttribute("list");
+							
+							int len=0;
+							int[] kg=null;
+							int[] reps=null;
+							if(map.get(list.get(num).getName())!=null){
+								len=map.get(list.get(num).getName()).getSetsarr().length;
+								kg=map.get(list.get(num).getName()).getKgarr();
+								reps=map.get(list.get(num).getName()).getRepsarr();
+								
+							}
+							request.setAttribute("kg",kg);
+							request.setAttribute("reps", reps);
+					%>	
+							
 							<c:forEach begin="1" end="${list.getSets() }" var="i">
 								<tr>
 									<td>${i }<input type="hidden" name="sets${i }" value="${i }"></td>
-									<td><input type="text" name="kg${i }"></td>
-									<td><input type="text" name="reps${i }"></td>
+									<td><input type="text" name="kg${i }" value="${kg[i-1] }"></td>
+									<td><input type="text" name="reps${i }" value="${reps[i-1] }"></td>
 								</tr>
 							</c:forEach>
 						</table>
+						
 						<input type="hidden" name="id" value="<%=id%>">
 						<input type="hidden" name="name" value="${list.getName() }">
 						<input type="hidden" name="day" value="${list.getDay() }">

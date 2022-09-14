@@ -40,8 +40,10 @@ public class TodayServlet extends HttpServlet {
 		
 		MemberDAO DAO=MemberDAO.getInstance();
 		ArrayList<Routine> list=DAO.getRoutine(id, day);
+		HashMap<String, Routine> map=DAO.getTodaysWork(id, day);
 		
 		request.setAttribute("list", list);
+		request.setAttribute("map", map);
 		RequestDispatcher dis=request.getRequestDispatcher("today.jsp");
 		dis.forward(request, response);
 	}
@@ -65,7 +67,10 @@ public class TodayServlet extends HttpServlet {
 		MemberDAO DAO=MemberDAO.getInstance();
 		DAO.setTodaysWork(id, day, name, sets, kg, reps);
 		ArrayList<Routine> list=DAO.getRoutine(id, day);
+		HashMap<String,Routine> map=DAO.getTodaysWork(id, day);
+		
 		request.setAttribute("list", list);
+		request.setAttribute("map", map);
 		request.getRequestDispatcher("today.jsp").forward(request, response);
 		
 	}

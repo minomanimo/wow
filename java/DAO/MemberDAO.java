@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.*;
 
 import member.*;
 
@@ -740,9 +740,12 @@ public class MemberDAO {
 	public void setTodaysWork(String id, String day, String name, int[] sets, int[] kg, int[] reps) {
 		Connection conn=null;
 		PreparedStatement pstmt=null;
-		String sql="insert into todayswork (id, day, name, sets, kg, reps) values (?,?,?,?,?,?)";
+		String sql="insert into todayswork (id, day, name, sets, kg, reps, date) values (?,?,?,?,?,?,?)";
 		try {
 			conn=getConnection();
+			LocalDate now=LocalDate.now();
+			DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy/MM/dd");
+			String date=now.format(formatter);
 			for(int i=0; i<sets.length; i++) {
 				pstmt=conn.prepareStatement(sql);
 				pstmt.setString(1, id);
@@ -751,6 +754,7 @@ public class MemberDAO {
 				pstmt.setInt(4, sets[i]);
 				pstmt.setInt(5, kg[i]);
 				pstmt.setInt(6, reps[i]);
+				pstmt.setString(7, date);
 				pstmt.executeUpdate();
 			}
 		}catch(Exception e) {
@@ -759,5 +763,61 @@ public class MemberDAO {
 			MemberDAO.close(conn, pstmt);
 		}
 	}
-	
+	public HashMap<String,Routine> getTodaysWork(String id, String day){
+		HashMap<String,Routine> map=new HashMap<String,Routine>();
+		
+		ArrayList<Routine> Rlist=getRoutine(id, day);
+		ArrayList<Integer> setslist=new ArrayList<Integer>();
+		ArrayList<Integer> kglist=new ArrayList<Integer>();
+		ArrayList<Integer> repslist=new ArrayList<Integer>();
+		int[] sets=null;
+		int[] kg=null;
+		int[] reps=null;
+		Routine rt=null;
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		LocalDate now=LocalDate.now();
+		DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		String date=now.format(formatter);
+		String sql="select * from todayswork where id=? and day=? and date=? and name=?";
+		try {
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			for(int i=0; i<Rlist.size(); i++) {
+				pstmt.setString(1, id);
+				pstmt.setString(2, day);
+				pstmt.setString(3, date);
+				pstmt.setString(4, Rlist.get(i).getName());
+				rs=pstmt.executeQuery();
+				rt=new Routine();
+				while(rs.next()) {
+					rt.setName(rs.getString("name"));
+					setslist.add(rs.getInt("sets"));
+					kglist.add(rs.getInt("kg"));
+					repslist.add(rs.getInt("reps"));
+				}
+				sets=new int[setslist.size()];
+				kg=new int[setslist.size()];
+				reps=new int[setslist.size()];
+				for(int j=0; j<setslist.size(); j++) {
+					sets[j]=setslist.get(j);
+					kg[j]=kglist.get(j);
+					reps[j]=repslist.get(j);
+				}
+				rt.setSetsarr(sets);
+				rt.setKgarr(kg);
+				rt.setRepsarr(reps);
+				if(rt.getName()!=null) {
+					map.put(rt.getName(), rt);
+				}
+				
+			}
+		}catch(Exception e) {
+			System.out.println("getTodaysRoutine() 실행중 오류발생 : "+e);
+		}finally {
+			MemberDAO.close(conn, pstmt, rs);
+		}
+		return map;
+	}
 }

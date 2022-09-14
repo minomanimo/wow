@@ -9,6 +9,10 @@ public class Routine {
 	private int sets;
 	private int kg;
 	private int reps;
+	private int[] setsarr;
+	private int[] kgarr;
+	private int[] repsarr;
+	public Routine() {}
 	public Routine(String id, String day, int idx, String name, int sets, int kg, int reps) {
 		this.id=id;
 		this.day=day;
@@ -69,6 +73,30 @@ public class Routine {
 	}
 	public void setIdx(int idx) {
 		this.idx = idx;
+	}
+
+	public int[] getSetsarr() {
+		return setsarr;
+	}
+
+	public void setSetsarr(int[] setarr) {
+		this.setsarr = setarr;
+	}
+
+	public int[] getKgarr() {
+		return kgarr;
+	}
+
+	public void setKgarr(int[] kgarr) {
+		this.kgarr = kgarr;
+	}
+
+	public int[] getRepsarr() {
+		return repsarr;
+	}
+
+	public void setRepsarr(int[] repsarr) {
+		this.repsarr = repsarr;
 	}
 	
 }
