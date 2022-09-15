@@ -59,10 +59,12 @@ ul{
 	color:white;
 	font-weight:bold;
 	margin:5px 0px;
+	transition-property:padding,padding-left;
+	transition-duration:.2s;
 }
 #list li:hover{
 	padding:15px;
-	transition:.2s;
+	padding-left:10px;
 }
 #explain{
 	border-left:1px solid gray;

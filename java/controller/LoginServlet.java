@@ -33,11 +33,11 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("userid", m.getId());
 			session.setAttribute("admin", m.getAdmin());			
 			session.setMaxInactiveInterval(60*60);
-			request.setAttribute("message", "로그인에 성공했습니다.");
+			request.setAttribute("message", 1);
 		}else if(result==0) {
-			request.setAttribute("message", "비밀번호가 일치하지 않습니다.");
+			request.setAttribute("message", 0);
 		}else {
-			request.setAttribute("message", "존재하지 않는 아이디입니다.");
+			request.setAttribute("message", -1);
 		}
 		RequestDispatcher dis=request.getRequestDispatcher("index.jsp");
 		dis.forward(request, response);

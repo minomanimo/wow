@@ -68,12 +68,13 @@
 	line-height:50px;
 	margin:5px;
 	padding-left:10px;
+	transition-property:padding,padding-left;
+	transition-duration:.2s;
 }
 #list li:hover{
 	padding:3px;
 	padding-left:10px;
-	border:0px;
-	transition:.2s;
+	
 }
 #list a{
 	display:inline-block;

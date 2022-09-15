@@ -55,8 +55,8 @@
 			
 			<div id="search">
 				<p>지금 운동에 관련된 정보를 찾아보세요!</p>
-				<form method="post" action="">
-					<input type="text" placeholder="검색">
+				<form method="get" action="searchPage.do">
+					<input type="text" name="search" placeholder="검색">
 					<input type="submit" value="검색">
 				</form>
 			</div>

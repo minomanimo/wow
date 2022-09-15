@@ -87,7 +87,7 @@
 	border:1px solid lightgray;
 	width:47%;
 	float:left;
-
+	height:405px;
 }
 #head{
 	border-bottom:1px solid lightgray;
@@ -121,6 +121,8 @@
 	font-size:0.8em;
 	margin:1px 13px;
 	cursor:pointer;
+	transition-property:font-size;
+	transition-duration:.2s;
 }
 #community li:hover{
 	text-decoration:underline;
@@ -142,13 +144,15 @@
 	line-height:10px;
 	text-align:center;
 	font-size:1.2em;
+	transition-property:width,height,font-size,line-height,margin-top;
+	transition-duration:.2s;
 }
 #more:hover{
 	width:20px;
 	height:20px;
 	font-size:1.5em;
 	line-height:12px;
-	transition:.2s;
+	margin-top:0;
 }
 #community li a{
 	text-decoration:none;

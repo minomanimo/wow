@@ -223,8 +223,13 @@ public class MemberDAO {
 			pstmt=conn.prepareStatement(sql);
 			rs=pstmt.executeQuery();
 			while(rs.next()) {
-				if(rs.getString("name").contains(keyword)) {
-					name.add(rs.getString("name"));
+				String workname=rs.getString("name");
+				String[] spl=workname.split(" ");
+				boolean flag=false;
+				for(int i=0; i<spl.length; i++) {
+					if(keyword.contains(spl[i])) {
+						name.add(workname);
+					}
 				}
 			}
 			if(name.size()==0) {

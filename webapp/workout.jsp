@@ -11,7 +11,7 @@
 		<div id="wrap">
 		
 			<div id="logo">
-				<a href="index.jsp">
+				<a href="index.jsp" style="display:inline-block">
 					<h1>WoW</h1>
 					<p>Workout anyWay</p>
 				</a>

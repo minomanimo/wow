@@ -36,9 +36,9 @@ public class JoinServlet extends HttpServlet {
 		MemberDAO mDAO=MemberDAO.getInstance();
 		int result=mDAO.insertMember(m);
 		if(result==1) {
-			request.setAttribute("message", "회원가입에 성공했습니다.");
+			request.setAttribute("message", 1);
 		}else {
-			request.setAttribute("message", "회원가입에 실패했습니다.");
+			request.setAttribute("message", 0);
 		}
 		RequestDispatcher dis=request.getRequestDispatcher("login.jsp");
 		dis.forward(request,response);

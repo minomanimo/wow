@@ -157,6 +157,8 @@
 				float: right;
    				cursor: pointer;
    				text-align:right;
+   				font-size: 1.7em;
+    			line-height: 5px;
 			}
 			#ud ul{
 				font-weight:normal;
@@ -164,12 +166,19 @@
 				font-size:0.9em;
 				float:right;
 				display:none;
-				
+				margin-top:6px;
 			}
 			#ud li{
 				border-bottom:1px solid gray;
 				background-color:white;
 				padding:3px;
+				font-size: 0.6em;
+ 				line-height: 21px;
+			}
+			#letter{
+				padding:10px 0;
+				padding-bottom:50px;
+				line-height:30px;
 			}
 		</style>
 	</head>
@@ -196,7 +205,7 @@
 	%>
 		<div id="wrap">
 			<div id="logo">
-				<a href="index.jsp">
+				<a href="index.jsp" style="display:inline-block">
 					<h1>WoW</h1>
 					<p>Workout anyWay</p>
 				</a>
@@ -218,7 +227,7 @@
 				<div id="time">${time }</div>
 				
 				<div id="content">
-					<div>
+					<div id="letter">
 						${content }
 					</div>
 					<div style="text-align:center;">

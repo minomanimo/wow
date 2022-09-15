@@ -8,10 +8,27 @@
 		<link rel="stylesheet" href="style_log.css">
 	</head>
 	<body>
-		
+		<%
+			if(request.getAttribute("message")!=null){
+				int message=(int)request.getAttribute("message");
+				if(message==1){
+		%>
+					<script>
+						alert("회원가입 성공!");
+					</script>
+		<%			
+				}else{
+		%>
+					<script>
+						alert("회원가입에 실패했습니다 ㅜㅜ");
+					</script>
+		<%			
+				}
+			}
+		%>
 		<div id="wrap">
 			<div id="logo">
-				<a href="index.jsp">
+				<a href="index.jsp" style="display:inline-block">
 					<h1>WoW</h1>
 					<p>Workout anyWay</p>
 				</a>
