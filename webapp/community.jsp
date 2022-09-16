@@ -42,7 +42,7 @@
 			</div>
 			<div id="write" style="cursor:pointer">글쓰기</div>
 			<div id="search">
-				<form method="get" action="">
+				<form method="get" action="searchCommu.do">
 					<input type="text" name="search">
 					<input type="submit" value="검색">
 				</form>
@@ -84,21 +84,40 @@
 					<ul>
 						<c:forEach items="${Alist }" var="Alist">
 							<li><a href="content.do?id=${Alist.getId() }&time=${Alist.getTime() }"><span>${Alist.getId() }</span><span>${Alist.getTitle() }</span><span>${Alist.getTime() }</span><span>좋아요 ${Alist.getLikes() }</span></a></li>
-						</c:forEach>			
+						</c:forEach>
+						<c:if test="${Alist.size() eq 0 }">
+							<li>결과가 없습니다.</li>
+						</c:if>			
 					</ul>
 				</div>
 				<div id="page">
 					<ul>
-						<c:forEach begin="1" end="${nOfPage }" var="i">
-							<c:choose>
-								<c:when test="${currentPage eq i }">
-									<li style="font-weight:bold; text-decoration:underline;">${i }</li>
-								</c:when>
-								<c:otherwise>
-									<li><a href="community.do?category=${category }&currentPage=${i }">${i }</a></li>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
+						<c:choose>
+							<c:when test="${isSearch eq 1 }">
+								<c:forEach begin="1" end="${nOfPage }" var="i">
+									<c:choose>
+										<c:when test="${currentPage eq i }">
+											<li style="font-weight:bold; text-decoration:underline;">${i }</li>
+										</c:when>
+										<c:otherwise>
+											<li><a href="searchCommu.do?search=${search }&currentPage=${i }">${i }</a></li>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								<c:forEach begin="1" end="${nOfPage }" var="i">
+									<c:choose>
+										<c:when test="${currentPage eq i }">
+											<li style="font-weight:bold; text-decoration:underline;">${i }</li>
+										</c:when>
+										<c:otherwise>
+											<li><a href="community.do?category=${category }&currentPage=${i }">${i }</a></li>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
 					</ul>
 				</div>
 			</div>

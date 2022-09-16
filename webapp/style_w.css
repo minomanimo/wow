@@ -51,7 +51,7 @@ ul{
     display: inline-block;
 }
 #list li{
-	border-bottom:1px solid gray;
+	
 	list-style:none;
 	padding:10px;
 	border-radius:10px 10px;
@@ -75,6 +75,7 @@ ul{
 }
 #list ul{
 	float:left;
+	width:94%;
 }
 #list a{
 	display:inline-block;

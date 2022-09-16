@@ -224,12 +224,21 @@ public class MemberDAO {
 			rs=pstmt.executeQuery();
 			while(rs.next()) {
 				String workname=rs.getString("name");
-				String[] spl=workname.split(" ");
-				boolean flag=false;
-				for(int i=0; i<spl.length; i++) {
-					if(keyword.contains(spl[i])) {
-						name.add(workname);
+				
+				String[] keywordarr=keyword.split("");
+				int flag=0;
+				for(int i=0; i<keywordarr.length; i++) {
+					if(keywordarr[i].equals(" ")) {
+						flag++;
+						continue;
 					}
+					if(workname.contains(keywordarr[i])) {
+						flag++;
+						
+					}
+				}
+				if(flag==keywordarr.length) {
+					name.add(workname);
 				}
 			}
 			if(name.size()==0) {
@@ -396,6 +405,62 @@ public class MemberDAO {
 			}catch(Exception ex) {
 				System.out.println("getCommu() 종료중 오류발생"+ex);
 			}
+		}
+		return list;
+	}
+	public ArrayList<Community> searchCommu(String search){
+		ArrayList<Community> list=new ArrayList<Community>();
+		Community cm=null;
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		String sql="select * from community where visible=1;";
+		try {
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				int num=rs.getInt("num");
+				String id=rs.getString("id");
+				String category=rs.getString("category");
+				String title=rs.getString("title");
+				String content=rs.getString("content");
+				String likes=rs.getString("likes");
+				String dislike=rs.getString("dislike");
+				String time=rs.getString("time");
+				
+				String[] titlearr=search.split("");
+				int flag=0;
+				for(int i=0; i<titlearr.length; i++) {
+					if(titlearr[i].equals(" ")) {
+						flag++;
+						continue;
+					}
+					if(title.contains(titlearr[i])) {
+						flag++;
+					}
+				}
+				if(flag==titlearr.length) {
+					cm=new Community(num,id,category,title,content,likes,dislike,time);
+					list.add(cm);
+				}else if(content.contains(search)) {
+					String[] conspl=content.split(search);
+					String newContent="";
+					for(int i=0; i<conspl.length; i++) {
+						if(i==conspl.length-1) {
+							newContent+=conspl[i];
+							break;
+						}
+						newContent+=conspl[i]+"<b>"+search+"</b>";
+					}
+					cm=new Community(num,id,category,title,newContent,likes,dislike,time);
+					list.add(cm);
+				}
+			}
+		}catch(Exception e) {
+			System.out.println("searchCommu() 실행중 오류발생 : "+e);
+		}finally {
+			MemberDAO.close(conn, pstmt, rs);
 		}
 		return list;
 	}
