@@ -21,7 +21,7 @@ public class ContentServlet extends HttpServlet {
 		String id=request.getParameter("id");
 		String time=request.getParameter("time");
 		MemberDAO mDAO=MemberDAO.getInstance();
-		ArrayList<Community> list=mDAO.getCommu(null, id, time, 0);
+		ArrayList<Community> list=mDAO.getCommu(null, id, time, 1);
 		
 		Community content=list.get(0);
 		

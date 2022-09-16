@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -35,7 +36,18 @@
 			</div>
 			<div id="list">
 				<ul>
-					
+					<c:choose>
+						<c:when test="${slist.size() eq 0 }">
+							<c:forEach items="${list }" var="list">
+								<a href="#" onclick="getLinks('${list.getName()}')"><li>${list.getName() }</li></a>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<c:forEach items="${slist }" var="list">
+								<a href="#" onclick="getLinks('${list}')"><li>${list }</li></a>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
 				</ul>
 			</div>
 			<div id="explain">
