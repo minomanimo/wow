@@ -901,4 +901,94 @@ public class MemberDAO {
 		}
 		return map;
 	}
+	public ArrayList<TotalVol> getAllTotalVol(){
+		ArrayList<TotalVol> list=new ArrayList<TotalVol>();
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		TotalVol tvday=new TotalVol();
+		tvday.setDays();
+		String[] days=tvday.getDays();
+		TotalVol tv=null;
+		int[] total=new int[7];
+		String sql="select * from todayswork where day(date)>=day(now())-6 and day(date)<=day(now())";
+		try {
+			int membernum=0;
+			String id=null;
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				if(!rs.getString("id").equals(id)) {
+					membernum++;
+					id=rs.getString("id");
+				}
+				for(int i=0; i<days.length; i++) {
+					if(days[i].equals(rs.getString("date"))) {
+						int kg=rs.getInt("kg");
+						int reps=rs.getInt("reps");
+						total[i]+=kg*reps;
+					}
+				}
+			}
+			for(int i=0; i<7; i++) {
+				total[i]=total[i]/membernum;
+			}
+			for(int i=0; i<7; i++) {
+				tv=new TotalVol();
+				tv.setDays();
+				tv.setToday(days[i]);
+				tv.setTotal(total[i]);
+				list.add(tv);
+			}
+		}catch(Exception e) {
+			System.out.println("getTotalVol() 실행중 오류발생 : "+e);
+		}finally {
+			MemberDAO.close(conn, pstmt,rs);
+		}
+		return list;
+	}
+	public ArrayList<TotalVol> getMyTotalVol(String id){
+		ArrayList<TotalVol> list=new ArrayList<TotalVol>();
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		TotalVol tvday=new TotalVol();
+		tvday.setDays();
+		String[] days=tvday.getDays();
+		TotalVol tv=null;
+		int[] total=new int[7];
+		String sql="select * from todayswork where id=? and day(date)>=day(now())-6 and day(date)<=day(now())";
+		try {
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				
+				for(int i=0; i<days.length; i++) {
+					if(days[i].equals(rs.getString("date"))) {
+						int kg=rs.getInt("kg");
+						int reps=rs.getInt("reps");
+						total[i]+=kg*reps;
+					}
+				}
+			}
+			for(int i=0; i<7; i++) {
+				total[i]=total[i];
+			}
+			for(int i=0; i<7; i++) {
+				tv=new TotalVol();
+				tv.setDays();
+				tv.setToday(days[i]);
+				tv.setTotal(total[i]);
+				list.add(tv);
+			}
+		}catch(Exception e) {
+			System.out.println("getTotalVol() 실행중 오류발생 : "+e);
+		}finally {
+			MemberDAO.close(conn, pstmt,rs);
+		}
+		return list;
+	}
 }

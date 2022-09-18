@@ -6,6 +6,7 @@
 		<meta charset="utf-8">
 		<title>글쓰기 | WoW</title>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 		<style>
 			*{
 				margin:0;
@@ -90,7 +91,8 @@
 					<option value="recom">보충제 추천</option>
 				</select>
 				<input type="text" name="title" placeholder="제목을 입력해주세요.">
-				<textarea rows="10" name="content" placeholder="내용을 입력해주세요." ></textarea>
+				<div id="editor"></div>
+				<input type="hidden" name="content" id="content">
 				<input type="hidden" value="<%=userid %>" name="userid">
 				<input type="button" value="취소" >
 				<input type="submit" value="작성">
@@ -102,6 +104,7 @@
 				</div>
 			</div>
 		</div>
+		<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 		<script>
 			$("input[type='button']").click(function(){
 				location.href="community.do";
@@ -117,7 +120,13 @@
 					alert("내용을 입력해주세요.");
 					return false;
 				}
+				var content=$(".ql-editor").html();
+				$("#content").val(content);
 			});
+			var quill = new Quill('#editor', {
+				theme: 'snow'
+			});
+			
 		</script>
 	</body>
 </html>

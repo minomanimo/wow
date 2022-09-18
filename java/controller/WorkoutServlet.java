@@ -18,12 +18,13 @@ public class WorkoutServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		String name=null;
-		if(request.getParameter("name")!=null) {
-			name=request.getParameter("name");
-		}
+		ArrayList<String> slist=new ArrayList<String>();
 		MemberDAO DAO=MemberDAO.getInstance();
 		ArrayList<WorkList> list=DAO.getWorkList("all");
-		ArrayList<String> slist=DAO.searchWork(name);
+		if(request.getParameter("name")!=null) {
+			name=request.getParameter("name");
+			slist=DAO.searchWork(name);
+		}
 		
 		request.setAttribute("slist",slist);
 		request.setAttribute("list", list);

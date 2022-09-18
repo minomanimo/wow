@@ -116,10 +116,13 @@
 		</div>
 		<script>
 			$("#main li").each(function(index){
-				$(this).click(function(){
-					$("#"+index).attr("style","display:block;");
-					$("#main").attr("style","display:none;");
-				});
+				if(this.innerText=="오늘 할 운동이 없습니다."){}
+				else{
+					$(this).click(function(){
+						$("#"+index).attr("style","display:block;");
+						$("#main").attr("style","display:none;");
+					});
+				}
 			});
 			$(".list input[type='button']").click(function(){
 				var list=this.parentNode.parentNode;

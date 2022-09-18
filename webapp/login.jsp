@@ -39,7 +39,7 @@
 				<input type="submit" value="로그인">
 			</form>
 			<div id="more">
-				<span>아이디/비밀번호를 잊으셨나요?</span><a href="#">아이디/비밀번호 찾기</a><br>
+				
 				<span>아직 회원이 아니신가요?</span><a href="register.jsp">회원가입</a>
 			</div>
 		</div>

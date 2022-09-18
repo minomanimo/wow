@@ -7,6 +7,9 @@
 		<meta charset="utf-8">
 		<title>WoW | Workout anyWay</title>
 		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="https://uicdn.toast.com/chart/latest/toastui-chart.min.css" />
+		<script src="https://uicdn.toast.com/chart/latest/toastui-chart.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	</head>
 	<body>
 		<div id="wrap">
@@ -60,6 +63,7 @@
 					<input type="submit" value="검색">
 				</form>
 			</div>
+			<div id="chart" style="width: 79vw; height: 60vh; min-width: 400px; min-height: 300px;"></div>
 			<div id="recommend">
 				<div id="player"></div>
 			</div>
@@ -73,7 +77,8 @@
 						<li><a href="content.do?id=${list.getId() }&time=${list.getTime() }">${list.getTitle() }</a></li>
 					</c:forEach>
 				</ul>
-			</div>
+			</div>	
+			
 			<div id="footer">
 				<h1>WoW</h1>
 				<p>Workout anyWay</p>
@@ -89,11 +94,126 @@
 			var player;
 			function onYouTubeIframeAPIReady(){
 				player=new YT.Player("player",{
-					width:'720',
-					height:'405',
+					//width:'720',
+					//height:'405',
 					videoId:'9lsqux_WcBo'
 				});
+				var iframe=document.getElementById("player");
+				
+				var responseH=iframe.offsetWidth*0.5625;
+				iframe.setAttribute("height",responseH);
+				window.addEventListener("resize",function(){
+					responseH=iframe.offsetWidth*0.5625;
+					iframe.setAttribute("height",responseH);
+				})
 			}
+			
+			//chart
+			$.ajax({
+				url:"totalVol.do",
+				method:"GET",
+				async:true,
+				success:function(data){
+					var all=data.getElementsByTagName("all")[0];
+					var my=data.getElementsByTagName("my")[0];
+					getChart(all, my);
+					
+				},
+				error:function(log){
+					console.log(log);
+				}
+			});
+			function getChart(all,my){
+				var days=all.getElementsByTagName("today");
+				var alltotalvol=all.getElementsByTagName("total");
+				
+				
+				
+				const Chart=toastui.Chart;
+				var data=null;
+				const el=document.getElementById("chart");
+				if(my!=undefined){
+					var mytotalvol=my.getElementsByTagName("total");
+					data={
+						categories:[
+							days[0].firstChild.data,
+							days[1].firstChild.data,
+							days[2].firstChild.data,
+							days[3].firstChild.data,
+							days[4].firstChild.data,
+							days[5].firstChild.data,
+							days[6].firstChild.data
+						],
+						series:[
+							{
+								name:'평균',
+								data:[
+									Number(alltotalvol[0].firstChild.data),
+									Number(alltotalvol[1].firstChild.data),
+									Number(alltotalvol[2].firstChild.data),
+									Number(alltotalvol[3].firstChild.data),
+									Number(alltotalvol[4].firstChild.data),
+									Number(alltotalvol[5].firstChild.data),
+									Number(alltotalvol[6].firstChild.data)
+								]
+							},
+							{
+								name:'나',
+								data:[
+									Number(mytotalvol[0].firstChild.data),
+									Number(mytotalvol[1].firstChild.data),
+									Number(mytotalvol[2].firstChild.data),
+									Number(mytotalvol[3].firstChild.data),
+									Number(mytotalvol[4].firstChild.data),
+									Number(mytotalvol[5].firstChild.data),
+									Number(mytotalvol[6].firstChild.data)
+								]
+							}
+						]
+					}
+				}else{
+					data={
+							categories:[
+								days[0].firstChild.data,
+								days[1].firstChild.data,
+								days[2].firstChild.data,
+								days[3].firstChild.data,
+								days[4].firstChild.data,
+								days[5].firstChild.data,
+								days[6].firstChild.data
+							],
+							series:[
+								{
+									name:'평균',
+									data:[
+										Number(alltotalvol[0].firstChild.data),
+										Number(alltotalvol[1].firstChild.data),
+										Number(alltotalvol[2].firstChild.data),
+										Number(alltotalvol[3].firstChild.data),
+										Number(alltotalvol[4].firstChild.data),
+										Number(alltotalvol[5].firstChild.data),
+										Number(alltotalvol[6].firstChild.data)
+									]
+								}
+							]
+						}
+				}
+				const options={
+					chart:{
+						title:"일별 볼륨 그래프",
+						width:'auto',
+						height:'auto'
+					},
+					series:{
+						
+						eventDetectType:'grouped'
+					},
+					
+				}
+				const chart=Chart.lineChart({el,data,options});
+				
+			}
+	
 			
 		</script>
 	</body>

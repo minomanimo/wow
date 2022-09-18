@@ -44,8 +44,6 @@
 			<h1>관리자 페이지</h1>
 			<div id="header">
 				<ul>
-					<li><a href="member.jsp">회원관리</a></li>
-					<li>QnA</li>
 					<li><a href="list.jsp">운동목록</a></li>
 				</ul>
 			</div>

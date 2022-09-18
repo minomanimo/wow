@@ -41,14 +41,14 @@
 				border-bottom:1px solid gray;
 				padding:10px 15px;
 			}
-			#commu p{
+			#p{
 				border-bottom:1px solid gray;
 				padding-bottom:10px;
 			}
 			#commu li:nth-child(2n){
 				border-bottom:1px solid lightgray;
 				font-size:0.8em;
-				padding-left:2%;
+				padding:0 2%;
 				padding-bottom:10px;
 			}
 			#commu li:nth-child(2n-1){
@@ -57,7 +57,7 @@
 			}
 			#work{
 				padding:10px 15px;
-				float:left;
+				
 			}
 			#work p{
 				border-bottom:1px solid gray;
@@ -66,14 +66,33 @@
 			#work li{
 				padding-top:10px;
 			}
+			#list{
+				float:left;
+				width:40%;
+			}
+			#list li{
+				background-color:lightblue;
+				
+				padding:10px;
+				margin:10px;
+				border-radius:6px;
+			}
+			#list li a{
+				color:white;
+				font-weight:bold;
+				text-decoration:none;
+				display:block;
+				width:100%;
+			}
 			#explain{
 				border-left:1px solid gray;
-				width:60%;
+				width:56%;
 				height:600px;
 				float:right;
 				padding:10px;
 			}
 		</style>
+		
 	</head>
 	<body>
 		<div id="wrap">
@@ -88,7 +107,7 @@
 			</div>
 			<div id="body">
 				<div id="commu">
-					<p>커뮤니티</p>
+					<p id="p">커뮤니티</p>
 					<ul>
 						<c:forEach items="${commuList }" var="list">
 							<li><a href="content.do?id=${list.getId() }&time=${list.getTime() }">${list.getTitle() }</a></li>
@@ -109,6 +128,7 @@
 				
 					</div>
 				</div>
+				
 			</div>
 		</div>
 		<script>
