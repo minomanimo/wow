@@ -13,6 +13,9 @@
 	color:black;
 	text-align:center;
 }
+#logo{
+	text-align:center;
+}
 #header li{
 	list-style:none;
 	display:inline-block;
