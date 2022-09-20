@@ -185,8 +185,10 @@
 	<body>
 	<%
 		String userid;
+		int admin;
 		if(session.getAttribute("userid")!=null){
 			userid=(String)session.getAttribute("userid");
+			admin=(int)session.getAttribute("admin");
 	%>
 			<input type="hidden" id="userid" value="<%=userid %>">
 	<%
@@ -213,7 +215,7 @@
 			<div id="main">
 				<div id="title">
 					${title }
-					<c:if test="${userid eq id }">
+					<c:if test="${userid eq id or admin eq 1}">
 					<div id="ud">
 						...<br>
 						<ul>

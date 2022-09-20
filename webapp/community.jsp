@@ -48,26 +48,26 @@
 				</form>
 			</div>
 			<div id="menu">
+				<a class="menu-trigger" href="#">
+					<span></span>
+					<span></span>
+					<span></span>
+				</a>
 				<ul>
 					<li><a href="community.do?category=popular">인기글</a></li>
 					<li><a href="community.do?category=info">운동 정보글</a></li>
 					<li><a href="community.do?category=free">자유 게시판</a></li>
 					<li><a href="community.do?category=recom">보충제 추천</a></li>
 				</ul>
+				
 				<div id="id">
 			<%
 					if(session.getAttribute("userid")!=null){
 						String userid=(String)session.getAttribute("userid");
 						int admin=(int)session.getAttribute("admin");
-						if(admin==1){
 			%>
-							<a href="adminCommu.jsp">관리자 페이지</a>
+						<a href="myPage.do?userid=${userid }">마이 페이지</a>
 			<%				
-						}else{
-			%>
-							<a href="myPage.do?userid=${userid }">마이 페이지</a>
-			<%				
-						}
 					}else{
 			%>		
 						<a href="login.jsp">
@@ -131,6 +131,25 @@
 		<script>
 			$("#write").click(function(){
 				location.href="write.jsp";
+			});
+			
+			var menu=$(".menu-trigger");
+			menu.each(function(){
+				var $this=$(this);
+				$this.on('click', function(){
+					if($(this).attr('class')=='menu-trigger'){
+						$("#menu ul").attr('style','display:inline-block;');
+						$("#menu li").each(function(index){
+							$(this).attr('style', 'display:block');
+						});
+					}else if($(this).attr('class')=='menu-trigger active'){
+						$("#menu ul").attr('style','');
+						$("#menu li").each(function(index){
+							$(this).attr('style', '');
+						});
+					}
+					$(this).toggleClass('active');
+				});
 			});
 		</script>
 	</body>

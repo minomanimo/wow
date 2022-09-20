@@ -195,8 +195,24 @@
 						height:'270',
 						videoId:getUrl	
 					});
+					
+				}
+				var iframe=document.getElementsByClassName("ytPlayer");
+				for(var i=0; i<iframe.length; i++){
+					console.log(iframe[i].offsetWidth);
+					var responseH=iframe[i].offsetWidth*0.5625;
+					iframe[i].setAttribute("height",responseH);
+					resize(iframe, i);
+				}
+				function resize(iframe, i){
+					console.log(iframe);
+					window.addEventListener("resize",function(){
+						responseH=iframe[i].offsetWidth*0.5625;
+						iframe[i].setAttribute("height",responseH);
+					});
 				}
 			}
+			
 		</script>
 	</body>
 </html>

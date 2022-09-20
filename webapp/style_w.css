@@ -72,6 +72,7 @@ ul{
 	height:600px;
 	float:right;
 	padding:10px;
+	overflow:auto;
 }
 #list ul{
 	float:left;
@@ -85,4 +86,15 @@ ul{
 	content:"";
 	display:block;
 	clear:both;
+}
+iframe{
+	width:100%;
+	max-width:640px;
+	min-width:300px;
+}
+#search form{
+	width:220px;
+}
+@media all and (max-width:1000px){
+	
 }

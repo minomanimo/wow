@@ -101,7 +101,7 @@
 			</div>
 		</div>
 		<script>
-			var num=1;		//리스트 길이값
+			var num=0;		//리스트 길이값
 			var arr=new Array();
 			function dayOnClick(event){
 				
@@ -115,7 +115,7 @@
 				a.parentNode.style.backgroundColor="lightgray";
 				$("#day").val(day);
 				$("#put").html("<li id='plus'>+</li>");	//리스트 초기화
-				num=1;									//리스트 길이
+				num=0;									//리스트 길이
 				arr=new Array();						//배열 초기화
 				//루틴 리스트 불러오기
 				var id=$("#id").val();
@@ -147,7 +147,7 @@
 							name_arr.push(name[i].firstChild.data);
 							num++;
 						}
-						$("#len").val(name.length);
+						$("#len").val(num);
 						var str_name=JSON.stringify(name_arr);
 						$("#arr").val(str_name);
 						deleteLi();
@@ -222,7 +222,7 @@
 				var data=e.dataTransfer.getData("data")
 				put.innerHTML+="<li id='drop' value='"+data+"'>"+data+
 				"<div class='input'>세트<input type='text'>중량<input type='text'>횟수<input type='text'><div class='x'>X</div></div></li>";
-				$("#len").val(num);
+				
 				arr=new Array();
 				$("#put li").each(function(){
 					arr.push($(this).attr("value"));
@@ -231,6 +231,7 @@
 				var str_arr=JSON.stringify(arr);
 				$("#arr").val(str_arr);			//배열 히든태그에 추가
 				num++;							//length값 올리기
+				$("#len").val(num);
 				deleteLi();
 			});
 			
@@ -308,7 +309,7 @@
 				});
 			}
 
-			//이슈 2:요일 변경 후 추가할때 array length because "day" is null 이딴거 뜸 원인 불명 이제 또 안뜸 뭐지?
+			
 			
 			
 			$("#opencheck").click(function(){

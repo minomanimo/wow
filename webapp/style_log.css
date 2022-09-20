@@ -45,3 +45,8 @@ form input{
 	text-decoration:none;
 	color:black;
 }
+@media all and (max-width:600px){
+	#wrap{
+		width:70%;
+	}
+}
