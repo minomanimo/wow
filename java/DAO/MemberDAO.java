@@ -441,6 +441,7 @@ public class MemberDAO {
 					}
 				}
 				if(flag==titlearr.length) {
+					content="";
 					cm=new Community(num,id,category,title,content,likes,dislike,time);
 					list.add(cm);
 				}else if(content.contains(search)) {
@@ -914,12 +915,26 @@ public class MemberDAO {
 		String sql="select * from todayswork where day(date)>=day(now())-6 and day(date)<=day(now())";
 		try {
 			int membernum=0;
+			
 			String id=null;
+			String day=null;
+			int[] numarr= {1,1,1,1,1,1,1};
 			conn=getConnection();
 			pstmt=conn.prepareStatement(sql);
 			rs=pstmt.executeQuery();
 			while(rs.next()) {
+				if(!rs.getString("day").equals(day)) {
+					
+					if(rs.getString("id").equals(id)) {
+						membernum=1;
+					}else {
+						membernum=0;
+					}
+					day=rs.getString("day");
+					
+				}
 				if(!rs.getString("id").equals(id)) {
+					
 					membernum++;
 					id=rs.getString("id");
 				}
@@ -928,11 +943,13 @@ public class MemberDAO {
 						int kg=rs.getInt("kg");
 						int reps=rs.getInt("reps");
 						total[i]+=kg*reps;
+						numarr[i]=membernum;
 					}
 				}
 			}
 			for(int i=0; i<7; i++) {
-				total[i]=total[i]/membernum;
+				
+				total[i]=total[i]/numarr[i];
 			}
 			for(int i=0; i<7; i++) {
 				tv=new TotalVol();

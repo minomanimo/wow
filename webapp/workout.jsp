@@ -205,7 +205,6 @@
 					resize(iframe, i);
 				}
 				function resize(iframe, i){
-					console.log(iframe);
 					window.addEventListener("resize",function(){
 						responseH=iframe[i].offsetWidth*0.5625;
 						iframe[i].setAttribute("height",responseH);

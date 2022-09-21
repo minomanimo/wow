@@ -100,7 +100,7 @@
 					<input type="submit" value="검색">
 				</form>
 			</div>
-			<div id="chart" style="width:100%; height:40vh; min-width:400px; max-height:300px;"></div>
+			<div id="chart" style="width:100%; height:40vh; min-width:400px; max-height:400px; min-height:300px;"></div>
 			<div id="recommend">
 				<div id="player"></div>
 			</div>

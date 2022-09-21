@@ -91,6 +91,11 @@
 				float:right;
 				padding:10px;
 			}
+			iframe{
+				width:100%;
+				max-width:640px;
+				min-width:300px;
+			}
 		</style>
 		
 	</head>
@@ -111,7 +116,7 @@
 					<ul>
 						<c:forEach items="${commuList }" var="list">
 							<li><a href="content.do?id=${list.getId() }&time=${list.getTime() }">${list.getTitle() }</a></li>
-							<li>${list.getContent() }</li>
+							
 						</c:forEach>
 					</ul>
 				</div>
@@ -217,7 +222,21 @@
 					videoId:getUrl	
 				});
 			}
+			var iframe=document.getElementsByClassName("ytPlayer");
+			for(var i=0; i<iframe.length; i++){
+				var responseH=iframe[i].offsetWidth*0.5625;
+				iframe[i].setAttribute("height",responseH);
+				resize(iframe, i);
+			}
+			function resize(iframe, i){
+				window.addEventListener("resize",function(){
+					responseH=iframe[i].offsetWidth*0.5625;
+					iframe[i].setAttribute("height",responseH);
+				});
+			}
 		}
+		
+		
 		</script>
 	</body>
 </html>
