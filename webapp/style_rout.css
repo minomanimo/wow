@@ -73,6 +73,7 @@
 	padding-left:10px;
 	transition-property:padding,padding-left;
 	transition-duration:.2s;
+	overflow:hidden;
 }
 #list li:hover{
 	padding:3px;
@@ -207,4 +208,37 @@ li{
 #daycheck label{
 	width:11%;
 	display:inline-block;
+}
+#showpart{
+	width: 100px;
+    border: 1px solid black;
+    text-align: center;
+    cursor: pointer;
+    margin: 10px auto;
+    display: none;
+}
+@media all and (max-width:1400px){
+	#choose{
+		display:none;
+		width:100%;
+	}
+	#showpart{
+		display:block;
+	}
+	#main form{
+		width: 80%;
+    	margin: 0 auto;
+    	float:none;
+	}
+}
+@media all and (max-width:1000px){
+	#main form{
+		width:100%;
+	}
+	#drop{
+		height:auto;
+	}
+	.input{
+		float:none;
+	}
 }

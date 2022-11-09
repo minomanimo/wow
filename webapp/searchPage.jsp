@@ -45,16 +45,15 @@
 				border-bottom:1px solid gray;
 				padding-bottom:10px;
 			}
-			#commu li:nth-child(2n){
+			#commu li{
 				border-bottom:1px solid lightgray;
-				font-size:0.8em;
+				
 				padding:0 2%;
 				padding-bottom:10px;
-			}
-			#commu li:nth-child(2n-1){
 				padding-top:10px;
 				padding-left:1%;
 			}
+			
 			#work{
 				padding:10px 15px;
 				

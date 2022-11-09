@@ -66,7 +66,10 @@
 			
 		
 			<div id="main">
+				
+				<span id="showpart">운동 선택</span>
 				<div id="choose">
+					
 					<p>1. 요일을 선택하세요.</p>
 					<p>2. 운동을 선택하세요.</p>
 					<ul id="part">
@@ -84,6 +87,7 @@
 						</ul>
 					</div>
 				</div>
+				
 				<form method="post" action="setRoutine.do">
 					<p>3. 세트/중량/반복횟수를 입력하세요.</p>
 					<p>4. 저장을 눌러 요일별 루틴을 완성하세요.</p>
@@ -139,8 +143,8 @@
 						var name_arr=new Array();
 						var put=document.getElementById("put");
 						for(var i=0; i<name.length; i++){
-							put.innerHTML+="<li id='drop' value='"+name[i].firstChild.data+"'>"+name[i].firstChild.data+
-								"<div class='input'>세트<input type='text' value='"
+							put.innerHTML+="<li id='drop' value='"+name[i].firstChild.data+"'><span>"+name[i].firstChild.data+
+								"</span><div class='input'>세트<input type='text' value='"
 								+sets[i].firstChild.data+"'>중량<input type='text' value='"
 								+kg[i].firstChild.data+"'>횟수<input type='text' value='"
 								+reps[i].firstChild.data+"'><div class='x'>X</div></div></li>";
@@ -175,11 +179,35 @@
 							}
 							drag=document.getElementsByClassName("drag");
 							dragEvent(drag);
+							
+							$("#list li").each(function(){
+								var $this=$(this);
+								
+								$this.click(function(){
+									
+									var name=$(this).text();
+									var ul=document.getElementById("put");
+									ul.innerHTML+="<li id='drop' value='"+name+"'><span>"+name+
+									"</span><div class='input'>세트<input type='text'>중량<input type='text'>횟수<input type='text'><div class='x'>X</div></div></li>";
+									arr=new Array();
+									$("#put li").each(function(){
+										arr.push($(this).attr("value"));
+									});
+									
+									var str_arr=JSON.stringify(arr);
+									$("#arr").val(str_arr);			//배열 히든태그에 추가
+									num++;							//length값 올리기
+									$("#len").val(num);
+									deleteLi();
+								});
+							});
 						},
 						error:function(xhr, status, errorMessage){
 							alert("운동 불러오기 실패..");
 						}
 					});
+					
+					
 				}
 			}
 			//드래그 앤 드롭 처리 
@@ -188,11 +216,7 @@
 				for(var i=0; i<drag.length; i++){
 					drag[i].addEventListener("dragstart",function(e){
 						e.dataTransfer.setData("data",this.innerHTML)
-						var clone=this.cloneNode(true);
 						
-						clone.setAttribute("style","position:absolute; top:0px; left:-400px;list-style:none; color:white; background-color:#3BA683; width:290px; height:50px; line-height:50px; border-radius:7px;")
-						document.body.appendChild(clone);
-						e.dataTransfer.setDragImage(clone,0,0);
 					});
 					
 				}
@@ -220,8 +244,8 @@
 					plus.remove();		//리스트 추가 시 +내용 없애기
 				}
 				var data=e.dataTransfer.getData("data")
-				put.innerHTML+="<li id='drop' value='"+data+"'>"+data+
-				"<div class='input'>세트<input type='text'>중량<input type='text'>횟수<input type='text'><div class='x'>X</div></div></li>";
+				put.innerHTML+="<li id='drop' value='"+data+"'><span>"+data+
+				"</span><div class='input'>세트<input type='text'>중량<input type='text'>횟수<input type='text'><div class='x'>X</div></div></li>";
 				
 				arr=new Array();
 				$("#put li").each(function(){
@@ -237,13 +261,12 @@
 			
 			$("#put").sortable({
 				update : function(event, ui){
-					console.log(event);
-					console.log(ui);
+					
 					var page_value=new Array();
 					$("#put li").each(function(){
 						page_value.push($(this).attr("value"));
 					});
-					console.log(page_value);
+					
 					var str_value=JSON.stringify(page_value);
 					$("#arr").val(str_value);
 					
@@ -296,6 +319,7 @@
 				$(".x").each(function(index){
 					$(this).click(function(){
 						var li=this.parentNode.parentNode;
+						
 						li.remove();
 						arr=new Array();
 						$("#put li").each(function(){
@@ -318,6 +342,21 @@
 			$("#daycheck input[type='button']").click(function(){
 				$("#daycheck").attr("style","");
 			});
+			var flag=false;
+			$("#showpart").click(function(){
+				if(flag){
+					$("#choose").attr("style","");
+					$("#main form").attr("style","");
+					$(this).text("운동 선택");
+					flag=false;
+				}else{
+					$("#choose").attr("style","display:block;");
+					$("#main form").attr("style","display:none;");
+					$(this).text("X");
+					flag=true;
+				}
+			});
+			
 		</script>
 	</body>
 </html>

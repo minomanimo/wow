@@ -33,12 +33,11 @@ public class ContentServlet extends HttpServlet {
 			if(list2.get(i).getRecomment()==0) {
 				Clist.add(list2.get(i));
 			}
-		}
-		for(int i=0; i<list2.size(); i++) {
 			if(list2.get(i).getRecomment()==1) {
 				Rlist.add(list2.get(i));
 			}
 		}
+		
 		
 		request.setAttribute("Clist", Clist);
 		request.setAttribute("Rlist", Rlist);

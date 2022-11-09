@@ -151,6 +151,23 @@
 					$(this).toggleClass('active');
 				});
 			});
+			$("#list span:nth-child(2)").each(function(){
+				var title=this.innerText;
+				
+				if(title.length>30){
+					var titlearr=title.split('');
+					var newTitle="";
+					for(var i=0; i<30; i++){
+						console.log(titlearr[i]);
+						newTitle+=titlearr[i];
+						if(i==29){
+							newTitle+="...";
+						}
+					}
+					this.innerText=newTitle;
+				}
+			});
+			
 		</script>
 	</body>
 </html>

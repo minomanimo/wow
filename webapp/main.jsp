@@ -53,7 +53,7 @@
 							</c:otherwise>
 						</c:choose>
 						<c:if test="${id ne null and admin eq 1}">
-							<div><a href="admin.jsp">관리자 페이지</a></div>
+							<div style="font-size:0.5em; width:18%;"><a href="admin.jsp">관리자 페이지</a></div>
 						</c:if>
 					</div>
 					<ul>
@@ -265,13 +265,6 @@
 					$(".menu li:nth-child(3)").attr("style","");
 					$(".menu li:nth-child(4)").attr("style","");
 					
-				}else if(win>600){
-					$(".menu li:nth-child(1)").attr("style","");
-					$(".menu li:nth-child(2)").attr("style","");
-					$("#login").attr("style","");
-					$(".menu li:nth-child(3)").attr("style","");
-					$(".menu li:nth-child(4)").attr("style","");
-					
 				}
 			});
 			
@@ -290,7 +283,7 @@
 							$(".menu li:nth-child(3)").attr("style","display:block; top:60px");
 							$(".menu li:nth-child(4)").attr("style","display:block; top:88px");
 						}
-					}else if(win<980 && win>600){
+					}else if(win<980){
 						if($(this).attr('class')=='menu-trigger active'){
 							$(".menu li:nth-child(1)").attr("style","");
 							$(".menu li:nth-child(2)").attr("style","");
@@ -305,20 +298,6 @@
 							$("#login").attr("style","display:block");
 						}
 						
-					}else if(win<600){
-						if($(this).attr('class')=='menu-trigger active'){
-							$(".menu li:nth-child(1)").attr("style","");
-							$(".menu li:nth-child(2)").attr("style","");
-							$(".menu li:nth-child(3)").attr("style","");
-							$(".menu li:nth-child(4)").attr("style","");
-							$("#login").attr("style","");
-						}else{
-							$(".menu li:nth-child(1)").attr("style","display:block; top:110px");
-							$(".menu li:nth-child(2)").attr("style","display:block; top:150px");
-							$(".menu li:nth-child(3)").attr("style","display:block; top:190px");
-							$(".menu li:nth-child(4)").attr("style","display:block; top:230px");
-							$("#login").attr("style","display:block");
-						}
 					}
 					$(this).toggleClass('active');
 					

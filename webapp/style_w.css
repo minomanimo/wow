@@ -24,7 +24,7 @@
 	display:inline-block;
 	text-align:center;
 	padding:10px;
-	margin:0px 45px;
+	margin:0px 4%;
 }
 #menu a:first-child{
 	margin-left:3%;
@@ -95,6 +95,14 @@ iframe{
 #search form{
 	width:220px;
 }
-@media all and (max-width:1000px){
-	
+@media all and (max-width:700px){
+	#list{
+		width:100%;
+	}
+	#explain{
+		display:none;
+	}
+	#search form{
+		margin-left:0;
+	}
 }

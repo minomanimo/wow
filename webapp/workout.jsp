@@ -7,6 +7,7 @@
 		<meta charset="utf-8">
 		<title>운동 | WoW</title>
 		<link href="style_w.css" rel="stylesheet">
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	</head>
 	<body>
 		<div id="wrap">
@@ -56,6 +57,11 @@
 		</div>
 		
 		<script>
+			var win=window.innerWidth;
+			window.addEventListener('resize',function(){
+				win=window.innerWidth;
+			});
+			console.log(win);
 			var XHR;
 			function createXMLHttpRequest(){
 				if(window.ActiveXObject){
@@ -69,6 +75,10 @@
 				for(var i=0; i<li.length; i++){
 					li[i].style.backgroundColor="white";
 					li[i].style.borderRadius="0px";
+				}
+				if(win<700){
+					$("#list").attr("style", "");
+					$("#explain").attr("style","")
 				}
 				var selected=document.getElementById(part);
 				selected.style.backgroundColor="lightgray";
@@ -97,6 +107,10 @@
 				ul.innerHTML=data;
 			}
 			function doSearch(){
+				if(win<700){
+					$("#list").attr("style", "");
+					$("#explain").attr("style","")
+				}
 				createXMLHttpRequest();
 				var name=document.getElementById("searchWork").value;
 				var dataString="SearchWork?name="+name;
@@ -148,6 +162,10 @@
 			}
 			//DB에서 운동 설명, 유튜브 링크 받아오기
 			function getLinks(name){
+				if(win<700){
+					$("#list").attr("style","display:none");
+					$("#explain").attr("style","display:block; width:100%; border-left:0;");
+				}
 				createXMLHttpRequest();
 				var dataString="GetLink?name="+name;
 				XHR.onreadystatechange=handleStateChange3;
@@ -166,6 +184,8 @@
 			function addLinks(exp,links){
 				var div=document.getElementById("explain");
 				div.innerHTML="";
+				console.log(exp);
+				console.log(links);
 				if(exp.firstChild.data!='null'){
 					div.innerHTML="<p>"+exp.firstChild.data+"</p>";
 				}if(links[0].firstChild.data!='null'){
